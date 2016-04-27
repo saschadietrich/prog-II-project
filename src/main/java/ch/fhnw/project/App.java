@@ -10,7 +10,7 @@ public final class App extends Application {
     @Override
     public void start(Stage stage) {
         // Asserts correct project setup (will only compile with Java 8)
-        Supplier<String> helloWorldSupplier = () -> "Hello Sascha";
+        Supplier<String> helloWorldSupplier = () -> "Hello Stefan";
         System.out.println(helloWorldSupplier.get());
     }
 
