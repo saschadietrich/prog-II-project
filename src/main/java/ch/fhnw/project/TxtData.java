@@ -5,12 +5,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 public class TxtData{
     private String name;
     private ArrayList<Double> vars = new ArrayList<>();
 
-    public void txtData(String pfad, int welcheVariable){
+    public  TxtData(String pfad, int welcheVariable){
         try {
             BufferedReader br = new BufferedReader(new FileReader(pfad));
             String[] names = br.readLine().split("\\t"); //nimmt erste zeile und speichert einzelne werte in array getrennt durch tab
