@@ -1,0 +1,29 @@
+
+Interface{
+siehe Bild für mehr Datails
+Schriftzug für ausgefählte Datei
+Fenstergrösse verstellbar -> sinvolle anpassung aller Felder
+}
+
+Daten einlesen{
+Interface für Grundgerüst-> damit funktionen alle gleich laufen und gleiche daten liefern
+Klassen für jeden datentyp basierend auf Interface
+
+laden der Daten über Menübutton
+-> App startet mit Menü butten und leerem Ramen
+exeption händlich beim auswahl ungültiger Daten
+}
+
+Histogramm{
+2 Histogramme unterhalb der Plotarea passend zu den x/y variablen!
+}
+
+Potarea{
+x/y-Achse Beschriftet
+skaliert?
+slieder für Punktgrösse
+Daten auswählen (x/Y)
+Farbauswahl für Punkte
+umschalten auf Linien
+Bubbleplot auf wunsch einschalten mit 3 Variable
+}
