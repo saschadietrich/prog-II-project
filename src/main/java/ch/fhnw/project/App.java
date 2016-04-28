@@ -28,14 +28,15 @@ public final class App extends Application {
             FileChooser chooser = new FileChooser();
             chooser.setTitle("test");
             String fileadress = chooser.showOpenDialog(stage).getAbsolutePath();
+            System.out.println(fileadress);
             TxtData one = new TxtData(fileadress, 0);
             TxtData two = new TxtData(fileadress, 1);
             xAchse.setLabel(one.getName());
             yAchse.setLabel(two.getName());
-            Double[] onea = new Double[one.gatVar().size()];
-            one.gatVar().toArray(onea);
-            Double[] twoa = new Double[two.gatVar().size()];
-            two.gatVar().toArray(twoa);
+            Double[] onea = new Double[one.getVar().size()];
+            one.getVar().toArray(onea);
+            Double[] twoa = new Double[two.getVar().size()];
+            two.getVar().toArray(twoa);
             for(int i =0; i<twoa.length; i++){
                 series1.getData().add(new XYChart.Data(onea[i], twoa[i]));
             }

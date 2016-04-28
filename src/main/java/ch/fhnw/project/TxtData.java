@@ -27,7 +27,7 @@ public class TxtData{
         }
     }
 
-    public ArrayList<Double> gatVar(){
+    public ArrayList<Double> getVar(){
         return this.vars;
     }
     public String getName(){
