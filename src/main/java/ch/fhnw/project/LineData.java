@@ -11,7 +11,7 @@ public class LineData {
     // Fields:
     List<String> datalines;
     List<String> variableNames = new ArrayList<>();
-    List<String> valueList = new ArrayList<>();
+    List<List> valueList = new ArrayList<>();
     Map<String,List<Double>> dataset = new HashMap<>();
     String delimiter = "";
 
@@ -34,10 +34,18 @@ public class LineData {
                     fileScanner.useDelimiter(delimiter);
                 }
                 else{
-                    valueList.add(fileScanner.nextLine());
+                    while(fileScanner.hasNextLine()){
+                        String lines = fileScanner.nextLine();
+                        List<Double> arrayLine = new ArrayList(Arrays.asList(lines.split(delimiter)));
+                        valueList.add(arrayLine);
+                    }
                 }
 
             }
+            for (int i = 0; i< variableNames.size(); i++){
+                dataset.put(variableNames.get(i), valueList.get(i));
+            }
+
         }
         catch(Exception e){
             System.out.println("File not found!");
@@ -50,9 +58,13 @@ public class LineData {
             System.out.println(word);
             //System.out.println();
         }
-        for (String element: data.valueList){
+        for (List element: data.valueList){
             System.out.println(element);
         }
+        for (Map.Entry<String,List<Double>> entry: data.dataset.entrySet()){
+            System.out.println(entry.getKey() + "->" + entry.getValue());
+        }
+
         System.out.println(data.delimiter);
     }
 }
