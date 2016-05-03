@@ -2,11 +2,6 @@ package ch.fhnw.project;
 
 import java.io.File;
 import java.util.*;
-
-/**
- * Created by stefan on 28.04.16.
- */
-
 public class LineData {
 
     // Fields:

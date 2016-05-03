@@ -2,12 +2,9 @@ package ch.fhnw.project;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.Button;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -16,38 +13,41 @@ import java.util.function.Supplier;
 public final class App extends Application {
 
     @Override
-    public void start(Stage stage) { // gemacht um zu sehen ob die TXTData klasse funktioniert
+    public void start(Stage stage) {
 
-        NumberAxis xAchse = new NumberAxis(-2, 4, 1);
-        NumberAxis yAchse = new NumberAxis(-2, 4, 1);
-        ScatterChart<Number, Number> sc = new ScatterChart<>(xAchse, yAchse);
-        XYChart.Series series1 = new XYChart.Series();
+        // Graphenfenster
+        NumberAxis xAxis = new NumberAxis(-10, 10, 1);
+        NumberAxis yAxis = new NumberAxis(-10, 10, 1);
+        ScatterChart<Number, Number> sc = new ScatterChart<>(xAxis, yAxis);
 
-        Button bu1 = new Button("Load");
-        bu1.setOnAction(event -> {
-            FileChooser chooser = new FileChooser();
-            chooser.setTitle("test");
-            String fileadress = chooser.showOpenDialog(stage).getAbsolutePath();
-            System.out.println(fileadress);
-            TxtData one = new TxtData(fileadress, 0);
-            TxtData two = new TxtData(fileadress, 1);
-            xAchse.setLabel(one.getName());
-            yAchse.setLabel(two.getName());
-            Double[] onea = new Double[one.getVar().size()];
-            one.getVar().toArray(onea);
-            Double[] twoa = new Double[two.getVar().size()];
-            two.getVar().toArray(twoa);
-            for(int i =0; i<twoa.length; i++){
-                series1.getData().add(new XYChart.Data(onea[i], twoa[i]));
-            }
-            sc.getData().addAll(series1);
-            });
+        CategoryAxis bins = new CategoryAxis();
+        NumberAxis frequency = new NumberAxis();
+        BarChart<String, Number> histogrammX = new BarChart<>(bins, frequency);
+
+        CategoryAxis bins2 = new CategoryAxis();
+        NumberAxis frequency2 = new NumberAxis();
+        BarChart<String, Number> histogrammy = new BarChart<>(bins2, frequency2);
+
+        //knpfe
+        Button bu1 = new Button("Hello World");
+
+        XYChart.Series data = new XYChart.Series();
 
 
-        Pane pane = new FlowPane();
-        pane.getChildren().addAll(bu1, sc);
+        GridPane controlPane = new GridPane(); // für knöpfe
+        controlPane.getChildren().add(bu1);
 
+        HBox histogrammBox = new HBox();
+        histogrammBox.getChildren().addAll(histogrammX,histogrammy);
 
+        VBox graphBox = new VBox(); // kommt Plot und Histogrammbox rein
+        graphBox.getChildren().addAll(sc,histogrammBox);
+
+        HBox mainBox = new HBox();
+        mainBox.getChildren().addAll(controlPane,graphBox);
+
+        Pane pane = new Pane();
+        pane.getChildren().add(mainBox);
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.setTitle("Testversion 0.0");
