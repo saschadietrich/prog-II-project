@@ -59,7 +59,7 @@ public class LineData {
         double [] valueList = new double [arrayList.size()];
         for (int i = 0; i < valueList.length; i++){
             //System.out.println(arrayList.get(i));
-            valueList[i]= arrayList.get(i);    // hier kann es iwie nicht umwandeln
+            valueList[i]= arrayList.get(i);
             //System.out.println(valueList[i]);
         }
 
