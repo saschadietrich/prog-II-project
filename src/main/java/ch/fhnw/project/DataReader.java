@@ -1,14 +1,12 @@
 package ch.fhnw.project;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public interface DataReader {
 
-    public DataModel creatingModel(File file);
+    public DataModel creatingModel(File file) throws FileNotFoundException;
 
-    public List<String> createVariableNameList(File file);
-
-    public List<double[]> createValuesList(File file);
 
 }

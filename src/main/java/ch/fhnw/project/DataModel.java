@@ -1,26 +1,27 @@
 package ch.fhnw.project;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DataModel {
-    private List<String> names;
-    private List<double[]> valueList;
+    private List<Variable> variable;
+    private String dateiname;
 
-    public DataModel(List<String> names, List<double[]> valueList){
-        this.names = names;
-        this.valueList =valueList;
+    public DataModel(List<String> names,String dateiname){
+        variable = names.stream().map(Variable::new).collect(Collectors.toList());
+        /*List<Variable> variable = new ArrayList<>();
+        for (String name : names) {
+            variable.add(new Variable(name));*/
+        this.dateiname = dateiname;
     }
 
-    public String getName(int index){
-        return names.get(index);
+    public List<Variable> getVariable(){
+        return variable;
     }
 
-    public double[] getValues(int index){
-        return valueList.get(index);
-    }
-
-    public List<String> getallName(){
-        return names;
+    public String getDateiname(){
+        return dateiname;
     }
 }
