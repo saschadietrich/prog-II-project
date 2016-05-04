@@ -70,7 +70,7 @@ public final class App extends Application {
         StackPane graphPane = new StackPane(); // für die 3 charts
         graphPane.getChildren().add(sc);
 
-        HBox histogrammBox = new HBox(); //histogramm box
+        HBox histogrammBox = new HBox(); //histogramm box,
         histogrammBox.getChildren().addAll(histogrammX,histogrammy);
         histogrammBox.setStyle("-fx-background-color: orange;");
         histogrammBox.setAlignment(Pos.CENTER);
