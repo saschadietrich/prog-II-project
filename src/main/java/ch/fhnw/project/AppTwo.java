@@ -29,7 +29,7 @@ public final class AppTwo extends Application {
         NumberAxis xAchse = new NumberAxis(-200, 5000, 100);
         NumberAxis yAchse = new NumberAxis(-200, 5000, 100);
         ScatterChart<Number, Number> sc = new ScatterChart<>(xAchse, yAchse);
-        XYChart.Series series1 = new XYChart.Series();
+        XYChart.Series<Number, Number> series1 = new XYChart.Series<>();
 
         ComboBox<String> comboBox;
 
@@ -54,11 +54,10 @@ public final class AppTwo extends Application {
             double[] dataOne = data.getValuesofVariable(varOne);  //Fehler in der Funktion Klasse LineData
             double[] dataTwo = data.getValuesofVariable(varTwo);
 
-            ;
             for(int i =0; i<dataOne.length; i++){
-                series1.getData().add(new XYChart.Data(dataOne[i], dataTwo[i]));
+                series1.getData().add(new XYChart.Data<>(dataOne[i], dataTwo[i]));
             }
-            sc.getData().addAll(series1);
+            sc.getData().add(series1);
         });
 
 
