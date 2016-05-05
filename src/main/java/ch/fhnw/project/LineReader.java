@@ -20,7 +20,7 @@ public class LineReader { //implements DataReader {
         String filename = "";
         String delimiter = "";
 
-        List<String> filePath = new ArrayList(Arrays.asList(file.toString().split("/")));
+        List<String> filePath = new ArrayList(Arrays.asList(file.toString().split("/"))); //Weisst du warum das Orange ist?
         for (String s : filePath) {
             filename = filePath.get(filePath.lastIndexOf(s));
         }
@@ -31,7 +31,7 @@ public class LineReader { //implements DataReader {
 
         List<String> variableNames = new ArrayList<>();
 
-        for (int row = amountofVariables; row <= maxAmountofLines; row++) {
+        for (int row = amountofVariables; row <= maxAmountofLines; row++) { // Scannt durch alle Linien, wahrscheinlich nicht unbedingt nötig!
             if (row <= (amountofVariables + 1)) {
                 variableNames.add(scanner.nextLine());
             } else if (row == amountofVariables + 2) {
@@ -41,11 +41,12 @@ public class LineReader { //implements DataReader {
 
         DataModel dataModel = new DataModel(variableNames, filename);
 
+        //Hinzufügen der Werte zu den Variablen-Objekten
         while (scanner.hasNextLine()) {
-            for (int i = 0; i < amountofVariables; i++) {
-                List<String> lines = new ArrayList((Arrays.asList(scanner.nextLine().split(delimiter))));
+            for (int i = 0; i < (dataModel.getVariable().size()); i++) {    //dataModel.getVariable().size() --> ruft erst die liste der Variabeln und ab und bestimmt dann die Grösse!
+                List<String> lines = new ArrayList((Arrays.asList(scanner.nextLine().split(delimiter)))); //Weisst du warum das Orange ist? // Liest eine Linie un Speichert sie als String -Liste
                 for (String number : lines) {
-                    dataModel.getVariable().get(i).addValue(Double.parseDouble(number));
+                    dataModel.getVariable().get(i).addValue(Double.parseDouble(number));                   //Hinzufügen der eingelesen werte zu den Variabeln
                 }
             }
         }
@@ -55,8 +56,8 @@ public class LineReader { //implements DataReader {
 
 
 
-    public static void main(String[] args) throws FileNotFoundException {
-        File file = new File ("/home/stefan/IdeaProjects/prog-II-project/src/main/resources/gauss-10000.lin");
+    public static void main(String[] args) throws FileNotFoundException {                           // muss dann wieder raus
+        File file = new File ("/home/stefan/IdeaProjects/prog-II-project/src/main/resources/reference-data.lin");
         DataModel object= creatingModel(file);
         List <Variable> test = object.getVariable();
         System.out.println("Filename: " + object.getFilename());
