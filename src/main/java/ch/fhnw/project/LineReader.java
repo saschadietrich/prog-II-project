@@ -55,8 +55,8 @@ public class LineReader { //implements DataReader {
     }
 
 
-
-    public static void main(String[] args) throws FileNotFoundException {                           // muss dann wieder raus
+    // muss dann wieder raus
+    public static void main(String[] args) throws FileNotFoundException {
         File file = new File ("/home/stefan/IdeaProjects/prog-II-project/src/main/resources/reference-data.lin");
         DataModel object= creatingModel(file);
         List <Variable> test = object.getVariable();
