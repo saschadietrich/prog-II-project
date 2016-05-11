@@ -8,5 +8,4 @@ public interface DataReader {
 
     public DataModel creatingModel(File file) throws FileNotFoundException;
 
-
 }
