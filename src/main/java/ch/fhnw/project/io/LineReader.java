@@ -1,7 +1,7 @@
 package ch.fhnw.project.io;
 
 
-import ch.fhnw.project.DataModel;
+import ch.fhnw.project.model.DataModel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LineReader implements DataReader {
-
 
     @Override
     public DataModel creatingModel(File file) throws FileNotFoundException {
@@ -25,32 +24,16 @@ public class LineReader implements DataReader {
             }
 
         String delimiter = scanner.nextLine();
-
         DataModel dataModel = new DataModel(variableNames, file.getName());
 
-        //Hinzufügen der Werte zu den Variablen-Objekten, Scannt alle Linien nach dem Delimiter
         while (scanner.hasNextLine()) {
-            for (int i = 0; i < (dataModel.getVariable().size()); i++) {    //dataModel.getVariable().size() --> ruft erst die liste der Variabeln und ab und bestimmt dann die Grösse!
-                List<String> lines = new ArrayList<>((Arrays.asList(scanner.nextLine().split(delimiter)))); //Weisst du warum das Orange ist? // Liest eine Linie un Speichert sie als String -Liste
+            for (int i = 0; i < (dataModel.getVariable().size()); i++) {
+                List<String> lines = new ArrayList<>((Arrays.asList(scanner.nextLine().split(delimiter))));
                 for (String number : lines) {
-                    dataModel.getVariable().get(i).addValue(Double.parseDouble(number));                   //Hinzufügen der eingelesen werte zu den Variabeln
+                    dataModel.getVariable().get(i).addValue(Double.parseDouble(number));
                 }
             }
         }
         return dataModel;
     }
-
-
-    /*/ muss dann wieder raus
-    public static void main(String[] args) throws FileNotFoundException {
-        File file = new File ("/home/stefan/IdeaProjects/prog-II-project/src/main/resources/reference-data.lin");
-        DataModel object= creatingModel(file);
-        List <Variable> test = object.getVariable();
-        System.out.println("Filename: " + object.getFilename());
-        System.out.println("Variables: " + object.getVariable());
-        for (Variable variable : test) {
-            System.out.println("Value: " + variable.getValues());
-        }
-
-    }*/
 }

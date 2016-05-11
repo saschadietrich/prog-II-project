@@ -1,4 +1,4 @@
-package ch.fhnw.project;
+package ch.fhnw.project.gui;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;

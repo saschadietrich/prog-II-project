@@ -1,4 +1,4 @@
-package ch.fhnw.project;
+package ch.fhnw.project.model;
 
 
 import java.util.ArrayList;

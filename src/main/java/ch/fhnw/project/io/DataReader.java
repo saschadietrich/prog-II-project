@@ -1,6 +1,6 @@
 package ch.fhnw.project.io;
 
-import ch.fhnw.project.DataModel;
+import ch.fhnw.project.model.DataModel;
 import java.io.File;
 import java.io.FileNotFoundException;
 
