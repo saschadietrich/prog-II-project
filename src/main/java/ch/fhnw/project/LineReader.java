@@ -17,24 +17,16 @@ public class LineReader { //implements DataReader {
     public static DataModel creatingModel(File file) throws FileNotFoundException {
 
         Scanner scanner = new Scanner(file);
-
-        String delimiter = "";
-        String filename = file.getName();
-
         int amountofVariables = Integer.parseInt(scanner.nextLine());
-
         List<String> variableNames = new ArrayList<>();
 
-        for (int row = amountofVariables; row <= (amountofVariables+2); row++) { //Scannt bis zum Delimiter
-            if (row <= (amountofVariables + 1)) {
+        for (int row = amountofVariables; row <= (amountofVariables+1); row++) { //Scannt bis zum Delimiter
                 variableNames.add(scanner.nextLine());
             }
-            else if (row == amountofVariables + 2) {
-                delimiter = scanner.nextLine();
-            }
-        }
 
-        DataModel dataModel = new DataModel(variableNames, filename);
+        String delimiter = scanner.nextLine();
+
+        DataModel dataModel = new DataModel(variableNames, file.getName());
 
         //Hinzufügen der Werte zu den Variablen-Objekten, Scannt alle Linien nach dem Delimiter
         while (scanner.hasNextLine()) {
