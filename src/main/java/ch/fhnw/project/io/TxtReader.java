@@ -1,4 +1,7 @@
-package ch.fhnw.project;
+package ch.fhnw.project.io;
+
+import ch.fhnw.project.DataModel;
+import ch.fhnw.project.Variable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,11 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public final class TxtReader {
+public final class TxtReader implements DataReader {
 
-
-    //@Override// sobald inferface funktioniert wieder ranmachen
-    public static DataModel creatingModel(File file) throws FileNotFoundException {
+    @Override
+    public DataModel creatingModel(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
         DataModel dataStructure = new DataModel(Arrays.asList(scanner.nextLine().split("\\t")),file.getName());
         int numberOfVariable = (dataStructure.getVariable()).size();

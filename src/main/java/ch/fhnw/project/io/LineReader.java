@@ -1,7 +1,7 @@
-package ch.fhnw.project;
+package ch.fhnw.project.io;
 
 
-import com.sun.org.apache.xpath.internal.SourceTree;
+import ch.fhnw.project.DataModel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,11 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class LineReader { //implements DataReader {
+public class LineReader implements DataReader {
 
 
-    //@Override
-    public static DataModel creatingModel(File file) throws FileNotFoundException {
+    @Override
+    public DataModel creatingModel(File file) throws FileNotFoundException {
 
         Scanner scanner = new Scanner(file);
         int amountofVariables = Integer.parseInt(scanner.nextLine());
@@ -31,7 +31,7 @@ public class LineReader { //implements DataReader {
         //Hinzufügen der Werte zu den Variablen-Objekten, Scannt alle Linien nach dem Delimiter
         while (scanner.hasNextLine()) {
             for (int i = 0; i < (dataModel.getVariable().size()); i++) {    //dataModel.getVariable().size() --> ruft erst die liste der Variabeln und ab und bestimmt dann die Grösse!
-                List<String> lines = new ArrayList((Arrays.asList(scanner.nextLine().split(delimiter)))); //Weisst du warum das Orange ist? // Liest eine Linie un Speichert sie als String -Liste
+                List<String> lines = new ArrayList<>((Arrays.asList(scanner.nextLine().split(delimiter)))); //Weisst du warum das Orange ist? // Liest eine Linie un Speichert sie als String -Liste
                 for (String number : lines) {
                     dataModel.getVariable().get(i).addValue(Double.parseDouble(number));                   //Hinzufügen der eingelesen werte zu den Variabeln
                 }
@@ -41,7 +41,7 @@ public class LineReader { //implements DataReader {
     }
 
 
-    // muss dann wieder raus
+    /*/ muss dann wieder raus
     public static void main(String[] args) throws FileNotFoundException {
         File file = new File ("/home/stefan/IdeaProjects/prog-II-project/src/main/resources/reference-data.lin");
         DataModel object= creatingModel(file);
@@ -52,5 +52,5 @@ public class LineReader { //implements DataReader {
             System.out.println("Value: " + variable.getValues());
         }
 
-    }
+    }*/
 }
