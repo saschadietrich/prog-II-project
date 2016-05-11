@@ -11,8 +11,8 @@ public class MainPane extends Pane {
     public MainPane(DataModel dataModel){
 
         ScatterPlotPane scatterPlotPane = new ScatterPlotPane();
-        HistogramPane histogramPane1 = new HistogramPane();
-        HistogramPane histogramPane2 = new HistogramPane();
+        HistogramPane histogramPane1 = new HistogramPane(dataModel.getVariable().get(0));
+        HistogramPane histogramPane2 = new HistogramPane(dataModel.getVariable().get(0));
         ControlPane controlPane = new ControlPane(dataModel, scatterPlotPane, histogramPane1, histogramPane2);
 
         VBox vBox = new VBox();

@@ -10,12 +10,11 @@ public class ScatterPlotPane extends Pane {
 
     public void setXVariable(Variable variable) {
         for (Double aDouble : variable.getValues()) {
-            System.out.println(aDouble);
-
+            //System.out.println(aDouble);
         }
     }
 
     public void setYVariable(Variable variable){
-        System.out.println("olee");
+        //System.out.println("olee");
     }
 }
