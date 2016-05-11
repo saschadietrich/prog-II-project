@@ -1,12 +1,12 @@
 package ch.fhnw.project.gui;
 
+import ch.fhnw.project.model.DataModel;
 import ch.fhnw.project.model.Variable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.layout.Pane;
 
-import java.util.List;
 
 public class HistogramPane extends Pane{
 
@@ -14,15 +14,13 @@ public class HistogramPane extends Pane{
     private NumberAxis yAxis = new NumberAxis();
     private BarChart<String,Number> barChart = new BarChart<>(xAxis, yAxis);
 
-    private String name;
-    private int numberOfPins; // da es nur einmal gibt
-    private List<Double> values;
+    private static int numberOfPins;
+    private double min, max;
 
-    public HistogramPane(Variable variable){
+    public HistogramPane(){
         barChart.setBarGap(0);
         barChart.setCategoryGap(0);
-        this.getChildren().add(barChart);//nummer of bins müssen nur 1mal berechnet werden!!! muee hier rein
-        numberOfPins = (int)Math.round(Math.sqrt(variable.getValues().size()));
+        this.getChildren().add(barChart);
 
 
     }
@@ -30,16 +28,25 @@ public class HistogramPane extends Pane{
 
     public void change(Variable variable){
         barChart.setTitle(variable.toString());
-        numberOfPins(variable);
         //System.out.println(numberOfPins);
+        //System.out.println(variable.getMax());
+        //System.out.println(variable.getMin());
 
-    }
 
-    private void numberOfPins(Variable variable){
-        numberOfPins = (int)Math.round(Math.sqrt(variable.getValues().size()));
     }
 
     private void biuldGroup(Variable variable){
 
+    }
+
+    private void stepsize(){
+
+    }
+
+    private void setMinMax(Variable variable){
+
+    }
+    public static void setPin(DataModel dataModel){
+        numberOfPins = (int)Math.round(Math.sqrt(dataModel.getVariable().get(0).getValues().size()));
     }
 }
