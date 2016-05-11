@@ -16,12 +16,18 @@ public class Variable {
         values.add(value);
     }
 
-    public String getName(){
+    /*public String getName(){
         return name;
-    }
+    }*/
 
     public List<Double> getValues(){
         return values;
     }
     // sollte noch min und max werte zurückgeben
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }
+
