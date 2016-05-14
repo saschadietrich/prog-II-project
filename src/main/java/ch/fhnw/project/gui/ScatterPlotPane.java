@@ -24,16 +24,8 @@ public class ScatterPlotPane extends StackPane {
     private ScatterChart<Number,Number> scatterChart = new ScatterChart<>(xAxis,yAxis);
     private XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
 
-    //Eigene Klasse für das ControlPanel für den Scatter Plot erstellen!
-    VBox vbox = new VBox();
-    HBox scatterBox = new HBox();
-    HBox scatterPanelBox = new HBox();
-
-    Slider slider = new Slider();
-    ToggleGroup toggleGroup = new ToggleGroup();
-    RadioButton scatterRB = new RadioButton("Scatter Plot");
-    RadioButton lineRB = new RadioButton("Line Plot");
-    RadioButton bubbleRB = new RadioButton("Bubble Plot");
+    private ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
+    private VBox vbox = new VBox();
 
 
    public void createDataSeries(Variable variableX, Variable variableY) {
@@ -70,15 +62,7 @@ public class ScatterPlotPane extends StackPane {
 
         this.getChildren().clear();
 
-        //Eigene Klasse für ScatterPanel erstellen!
-        scatterRB.setToggleGroup(toggleGroup);
-        lineRB.setToggleGroup(toggleGroup);
-        bubbleRB.setToggleGroup(toggleGroup);
-        scatterRB.setSelected(true);
-
-        scatterPanelBox.getChildren().addAll(slider,scatterRB,lineRB,bubbleRB);
-        scatterBox.getChildren().add(scatterChart);
-        vbox.getChildren().addAll(scatterPanelBox,scatterBox);  //Vbox ist zu Klein noch anpassen!!
+        vbox.getChildren().addAll(scControlPane,scatterChart);
         this.getChildren().addAll(vbox);
 
 
