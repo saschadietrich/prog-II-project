@@ -61,6 +61,7 @@ public class ScatterPlotPane extends StackPane {
         scatterChart.getData().add(data);
 
         this.getChildren().clear();
+        vbox.getChildren().clear();
 
         vbox.getChildren().addAll(scControlPane,scatterChart);
         this.getChildren().addAll(vbox);
