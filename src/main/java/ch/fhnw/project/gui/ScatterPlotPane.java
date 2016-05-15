@@ -19,16 +19,28 @@ import java.util.List;
 
 public class ScatterPlotPane extends StackPane {
 
-    private NumberAxis xAxis = new NumberAxis();
-    private NumberAxis yAxis = new NumberAxis();
-    private ScatterChart<Number,Number> scatterChart = new ScatterChart<>(xAxis,yAxis);
-    private XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
+    private NumberAxis xAxis;
+    private NumberAxis yAxis;
+    private ScatterChart<Number,Number> scatterChart;
+    private XYChart.Series <Number,Number> dataSeries;
 
-    private ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
-    private VBox vbox = new VBox();
+    private ScatterPlotControlPane scControlPane;
+    private VBox vbox;
+
+    public ScatterPlotPane() {
+        xAxis = new NumberAxis();
+        yAxis = new NumberAxis();
+        scatterChart = new ScatterChart<>(xAxis,yAxis);
+        dataSeries = new XYChart.Series<>();
+        scControlPane = new ScatterPlotControlPane();
+        vbox = new VBox();
+
+        vbox.getChildren().addAll(scControlPane,scatterChart);
+        this.getChildren().addAll(vbox);
+    }
 
 
-   public void createDataSeries(Variable variableX, Variable variableY) {
+    public void createDataSeries(Variable variableX, Variable variableY) {
 
        //Formation of Axis:
        xAxis.setForceZeroInRange(false);
@@ -59,14 +71,8 @@ public class ScatterPlotPane extends StackPane {
     private void createPlot(XYChart.Series<Number,Number> data){
 
         scatterChart.getData().add(data);
-
-        this.getChildren().clear();
-        vbox.getChildren().clear();
-
-        vbox.getChildren().addAll(scControlPane,scatterChart);
-        this.getChildren().addAll(vbox);
-
-
+        //this.getChildren().clear();
+        //vbox.getChildren().clear();
     }
 
 
