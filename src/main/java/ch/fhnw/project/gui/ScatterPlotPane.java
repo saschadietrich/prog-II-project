@@ -2,71 +2,97 @@ package ch.fhnw.project.gui;
 
 
 import ch.fhnw.project.model.Variable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Toggle;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.util.List;
 
-public class ScatterPlotPane extends StackPane {
+public class ScatterPlotPane extends VBox {
 
     private NumberAxis xAxis;
     private NumberAxis yAxis;
     private ScatterChart<Number,Number> scatterChart;
-    private XYChart.Series <Number,Number> dataSeries;
+    private LineChart<Number,Number> lineChart;
+    private StackPane stackPane = new StackPane();
     ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
 
     public ScatterPlotPane() {
         xAxis = new NumberAxis();
         yAxis = new NumberAxis();
-        scatterChart = new ScatterChart<>(xAxis,yAxis);
-        dataSeries = new XYChart.Series<>();
+        xAxis.setForceZeroInRange(false);
+        yAxis.setForceZeroInRange(false);
 
-        VBox vbox = new VBox();
-
-        vbox.getChildren().addAll(scControlPane,scatterChart);
-        this.getChildren().addAll(vbox);
     }
 
 
-    public void createDataSeries(Variable variableX, Variable variableY) {
+    public void setUp(Variable variableX, Variable variableY) {
+        //Formation of Axis:
+        xAxis.setLabel(variableX.toString());
+        yAxis.setLabel(variableY.toString());
 
-       //Formation of Axis:
-       xAxis.setForceZeroInRange(false);
-       yAxis.setForceZeroInRange(false);
-       xAxis.setLabel(variableX.toString());
-       yAxis.setLabel(variableY.toString());
+        this.getChildren().clear();
+        stackPane.getChildren().clear();
+        HBox hbox = new HBox();
 
-       //Resets previous Dataset, otherwise nasty erros
-       dataSeries.getData().clear();
-       scatterChart.getData().clear();
+        scatterChart = plotScatterChart(createDataSeries(variableX,variableY));
+        scatterChart.setStyle("-fx-background-color: transparent");
 
-       //Value Lists:
-       List<Double> xValues = variableX.getValues();
-       List<Double> yValues = variableY.getValues();
+        scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(scControlPane.cb.isSelected()){
+                lineChart = plotLineChart(createDataSeries(variableX,variableY));
+                lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+                stackPane.getChildren().addAll(lineChart);
+            }
+            else {
+                stackPane.getChildren().remove(lineChart);  // das Funktioniert nicht so wirklich, entweder löscht es die gemeinsamen Achsen, oder mach ganz komische Sachen wenn ich die Variabeln änder! keine Ahnung wieso!
+            }
+        });
 
-       //Creates Data points, with sizable Circles
-       for (int i = 0; i < xValues.size(); i++) {   // Problem --> Was ist wenn X und Y nicht gleich gross sind!
-           XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(xValues.get(i),yValues.get(i));
-           Circle circle = new Circle();
-           circle.radiusProperty().bind(scControlPane.slider.valueProperty());
-           circle.fillProperty().bind(scControlPane.colorPicker.valueProperty());
-           dataPoint.setNode(circle);
-           dataSeries.getData().add(dataPoint);
-       }
-       createPlot(dataSeries);
+        stackPane.getChildren().addAll(scatterChart);
+        this.getChildren().addAll(scControlPane, stackPane);
+
    }
 
-    private void createPlot(XYChart.Series<Number,Number> data){
+    private XYChart.Series<Number,Number> createDataSeries(Variable varX, Variable varY){
+        XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
 
-        scatterChart.getData().add(data);
-        //this.getChildren().clear();
-        //vbox.getChildren().clear();
+        List<Double> xValues = varX.getValues();
+        List<Double> yValues = varY.getValues();
+
+        for (int i = 0; i < xValues.size(); i++) {   // Problem --> Was ist wenn X und Y nicht gleich gross sind!
+            XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(xValues.get(i),yValues.get(i));
+            Circle circle = new Circle();
+            circle.radiusProperty().bind(scControlPane.slider.valueProperty());
+            circle.fillProperty().bind(scControlPane.colorPicker.valueProperty());
+            dataPoint.setNode(circle);
+            dataSeries.getData().add(dataPoint);
+        }
+        return dataSeries;
     }
 
+    private ScatterChart<Number,Number> plotScatterChart( XYChart.Series <Number,Number> data){
+        /*NumberAxis xAxis = new NumberAxis();
+        NumberAxis yAxis = new NumberAxis();*/
+        ScatterChart<Number, Number> sc = new ScatterChart<>(xAxis,yAxis);
+        sc.getData().add(data);
+        return sc;
+    }
+
+    private LineChart<Number,Number> plotLineChart(XYChart.Series <Number,Number> data){
+        /*NumberAxis xAxis = new NumberAxis();
+        NumberAxis yAxis = new NumberAxis();*/
+        LineChart<Number,Number> lc = new LineChart<>(xAxis,yAxis);
+        lc.getData().add(data);
+        return lc;
+    }
 
 }

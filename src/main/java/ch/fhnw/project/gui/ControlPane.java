@@ -62,7 +62,7 @@ public class ControlPane extends HBox {
     }
 
     private void setNewValueScatterPlot(Variable varX, Variable varY){
-        scatterPlotPane.createDataSeries(varX,varY);
+        scatterPlotPane.setUp(varX,varY);
     }
 
     private void setNewValueHistogram(Variable newVariable, boolean xValue){
