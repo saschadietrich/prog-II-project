@@ -38,7 +38,6 @@ public class ScatterPlotPane extends VBox {
 
         this.getChildren().clear();
         stackPane.getChildren().clear();
-        HBox hbox = new HBox();
 
         scatterChart = plotScatterChart(createDataSeries(variableX,variableY));
         scatterChart.setStyle("-fx-background-color: transparent");
