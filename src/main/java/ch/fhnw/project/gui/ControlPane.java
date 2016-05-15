@@ -3,6 +3,8 @@ package ch.fhnw.project.gui;
 
 import ch.fhnw.project.model.DataModel;
 import ch.fhnw.project.model.Variable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 
@@ -43,6 +45,9 @@ public class ControlPane extends HBox {
             setNewValueScatterPlot(variableX,variableY);
         });
 
+        this.setPadding(new Insets(5,5,5,5));
+        this.setAlignment(Pos.CENTER);
+        this.setSpacing(10);
         this.getChildren().addAll(xChooser,yChooser);
     }
 

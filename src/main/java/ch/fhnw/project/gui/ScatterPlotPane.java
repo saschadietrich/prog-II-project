@@ -5,11 +5,6 @@ import ch.fhnw.project.model.Variable;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -23,17 +18,15 @@ public class ScatterPlotPane extends StackPane {
     private NumberAxis yAxis;
     private ScatterChart<Number,Number> scatterChart;
     private XYChart.Series <Number,Number> dataSeries;
-
-    private ScatterPlotControlPane scControlPane;
-    private VBox vbox;
+    ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
 
     public ScatterPlotPane() {
         xAxis = new NumberAxis();
         yAxis = new NumberAxis();
         scatterChart = new ScatterChart<>(xAxis,yAxis);
         dataSeries = new XYChart.Series<>();
-        scControlPane = new ScatterPlotControlPane();
-        vbox = new VBox();
+
+        VBox vbox = new VBox();
 
         vbox.getChildren().addAll(scControlPane,scatterChart);
         this.getChildren().addAll(vbox);
@@ -60,8 +53,8 @@ public class ScatterPlotPane extends StackPane {
        for (int i = 0; i < xValues.size(); i++) {   // Problem --> Was ist wenn X und Y nicht gleich gross sind!
            XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(xValues.get(i),yValues.get(i));
            Circle circle = new Circle();
-           circle.setRadius(5);
-           circle.setFill(Color.BLACK);
+           circle.radiusProperty().bind(scControlPane.slider.valueProperty());
+           circle.fillProperty().bind(scControlPane.colorPicker.valueProperty());
            dataPoint.setNode(circle);
            dataSeries.getData().add(dataPoint);
        }
