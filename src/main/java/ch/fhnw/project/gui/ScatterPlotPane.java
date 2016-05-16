@@ -22,7 +22,10 @@ public class ScatterPlotPane extends VBox {
     }*/
 
     public void setUp(Variable variableX, Variable variableY) {
-
+        /*
+        * Gets Variables from ControlPane class
+        * displays Scatter and LineChart via Checkbox selection (Listener to CheckBox in ScatterPlotControlPane class
+        * */
         StackPane stackPane = new StackPane();
         StackPane stackpane2 = new StackPane(); // Zusätzlich hinzugefügt um LinienChart besser löschen zu können, bekomme jetzt Children: duplicate children added: parent = StackPane@4e03025d Fehler
 
@@ -31,7 +34,7 @@ public class ScatterPlotPane extends VBox {
 
         ScatterChart<Number, Number> scatterChart = plotScatterChart(createDataSeries(variableX, variableY),variableX,variableY);
         scatterChart.setStyle("-fx-background-color: transparent");
-        scatterChart.legendVisibleProperty().set(false);
+        scatterChart.legendVisibleProperty().set(false);  //  schaltet Legende aus, verhindert die komische Achsenverschiebung wenn man Panes aufeinander legt
 
         scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(scControlPane.cb.isSelected()){
@@ -51,6 +54,9 @@ public class ScatterPlotPane extends VBox {
    }
 
     private XYChart.Series<Number,Number> createDataSeries(Variable varX, Variable varY){
+        /*
+        Creates DataSeries for Line and Scatter Plot and returns it
+         */
         XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
 
         List<Double> xValues = varX.getValues();
@@ -68,16 +74,20 @@ public class ScatterPlotPane extends VBox {
     }
 
     private ScatterChart<Number,Number> plotScatterChart( XYChart.Series <Number,Number> data, Variable x, Variable y){
+        /*
+        Creates a ScatterPlot and returns it
+         */
         NumberAxis xAxis = createXAxis(x);
         NumberAxis yAxis = createYAxis(y);
-        xAxis.setForceZeroInRange(false);
-        yAxis.setForceZeroInRange(false);
         ScatterChart<Number, Number> sc = new ScatterChart<>(xAxis,yAxis);
         sc.getData().add(data);
         return sc;
     }
 
     private LineChart<Number,Number> plotLineChart(XYChart.Series <Number,Number> data,Variable x, Variable y){
+        /*
+        Creates a LinePlot and returns it
+         */
         NumberAxis xAxis = createXAxis(x);
         NumberAxis yAxis = createYAxis(y);
         LineChart<Number,Number> lc = new LineChart<>(xAxis,yAxis);
@@ -85,7 +95,10 @@ public class ScatterPlotPane extends VBox {
         return lc;
     }
 
-    private NumberAxis createXAxis(Variable varX){  // Achsen werden sobal man die Variabeln wechselt über Combobox doppelt dargestellt!
+    private NumberAxis createXAxis(Variable varX){
+        /*
+        creates xAxis and returns it
+         */
         NumberAxis xAxis= new NumberAxis();
         xAxis.setLabel(varX.toString());
         xAxis.setForceZeroInRange(false);
@@ -94,6 +107,9 @@ public class ScatterPlotPane extends VBox {
     }
 
     private NumberAxis createYAxis(Variable varY){
+        /*
+        Creates yAxis and returns it
+         */
         NumberAxis yAxis= new NumberAxis();
         yAxis.setLabel(varY.toString());
         yAxis.setForceZeroInRange(false);
