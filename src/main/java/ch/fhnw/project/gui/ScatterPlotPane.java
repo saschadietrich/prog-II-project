@@ -15,16 +15,15 @@ import java.util.List;
 public class ScatterPlotPane extends VBox {
 
     private LineChart<Number,Number> lineChart;
-    private StackPane stackPane;
     private ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
 
-    public ScatterPlotPane() {
-        stackPane = new StackPane();
-    }
+   /* public ScatterPlotPane() {
 
+    }*/
 
     public void setUp(Variable variableX, Variable variableY) {
 
+        StackPane stackPane = new StackPane();
         StackPane stackpane2 = new StackPane(); // Zusätzlich hinzugefügt um LinienChart besser löschen zu können, bekomme jetzt Children: duplicate children added: parent = StackPane@4e03025d Fehler
 
         this.getChildren().clear();
@@ -32,11 +31,13 @@ public class ScatterPlotPane extends VBox {
 
         ScatterChart<Number, Number> scatterChart = plotScatterChart(createDataSeries(variableX, variableY),variableX,variableY);
         scatterChart.setStyle("-fx-background-color: transparent");
+        scatterChart.legendVisibleProperty().set(false);
 
         scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(scControlPane.cb.isSelected()){
                 lineChart = plotLineChart(createDataSeries(variableX,variableY),variableX,variableY);
                 lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+                lineChart.legendVisibleProperty().set(false);
                 stackpane2.getChildren().add(lineChart);  //denke ich nicht optimal
                 stackPane.getChildren().add(stackpane2);
             }
@@ -44,6 +45,7 @@ public class ScatterPlotPane extends VBox {
                 stackpane2.getChildren().clear();
             }
         });
+
         stackPane.getChildren().add(scatterChart);
         this.getChildren().addAll(scControlPane, stackPane);
    }
