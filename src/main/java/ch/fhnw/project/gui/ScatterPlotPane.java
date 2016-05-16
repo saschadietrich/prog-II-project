@@ -6,7 +6,6 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
@@ -15,47 +14,38 @@ import java.util.List;
 
 public class ScatterPlotPane extends VBox {
 
-    private NumberAxis xAxis;
-    private NumberAxis yAxis;
-    private ScatterChart<Number,Number> scatterChart;
     private LineChart<Number,Number> lineChart;
-    private StackPane stackPane = new StackPane();
-    ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
+    private StackPane stackPane;
+    private ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
 
     public ScatterPlotPane() {
-        xAxis = new NumberAxis();
-        yAxis = new NumberAxis();
-        xAxis.setForceZeroInRange(false);
-        yAxis.setForceZeroInRange(false);
-
+        stackPane = new StackPane();
     }
 
 
     public void setUp(Variable variableX, Variable variableY) {
-        //Formation of Axis:
-        xAxis.setLabel(variableX.toString());
-        yAxis.setLabel(variableY.toString());
+
+        StackPane stackpane2 = new StackPane(); // Zusätzlich hinzugefügt um LinienChart besser löschen zu können, bekomme jetzt Children: duplicate children added: parent = StackPane@4e03025d Fehler
 
         this.getChildren().clear();
         stackPane.getChildren().clear();
 
-        scatterChart = plotScatterChart(createDataSeries(variableX,variableY));
+        ScatterChart<Number, Number> scatterChart = plotScatterChart(createDataSeries(variableX, variableY),variableX,variableY);
         scatterChart.setStyle("-fx-background-color: transparent");
 
         scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(scControlPane.cb.isSelected()){
-                lineChart = plotLineChart(createDataSeries(variableX,variableY));
+                lineChart = plotLineChart(createDataSeries(variableX,variableY),variableX,variableY);
                 lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
-                stackPane.getChildren().addAll(lineChart);
+                stackpane2.getChildren().add(lineChart);  //denke ich nicht optimal
+                stackPane.getChildren().add(stackpane2);
             }
             else {
-                stackPane.getChildren().remove(lineChart);  // das Funktioniert nicht so wirklich, entweder löscht es die gemeinsamen Achsen, oder mach ganz komische Sachen wenn ich die Variabeln änder! keine Ahnung wieso!
+                stackpane2.getChildren().clear();
             }
         });
-
-        stackPane.getChildren().addAll(scatterChart);
+        stackPane.getChildren().add(scatterChart);
         this.getChildren().addAll(scControlPane, stackPane);
-
    }
 
     private XYChart.Series<Number,Number> createDataSeries(Variable varX, Variable varY){
@@ -75,20 +65,38 @@ public class ScatterPlotPane extends VBox {
         return dataSeries;
     }
 
-    private ScatterChart<Number,Number> plotScatterChart( XYChart.Series <Number,Number> data){
-        /*NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();*/
+    private ScatterChart<Number,Number> plotScatterChart( XYChart.Series <Number,Number> data, Variable x, Variable y){
+        NumberAxis xAxis = createXAxis(x);
+        NumberAxis yAxis = createYAxis(y);
+        xAxis.setForceZeroInRange(false);
+        yAxis.setForceZeroInRange(false);
         ScatterChart<Number, Number> sc = new ScatterChart<>(xAxis,yAxis);
         sc.getData().add(data);
         return sc;
     }
 
-    private LineChart<Number,Number> plotLineChart(XYChart.Series <Number,Number> data){
-        /*NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();*/
+    private LineChart<Number,Number> plotLineChart(XYChart.Series <Number,Number> data,Variable x, Variable y){
+        NumberAxis xAxis = createXAxis(x);
+        NumberAxis yAxis = createYAxis(y);
         LineChart<Number,Number> lc = new LineChart<>(xAxis,yAxis);
         lc.getData().add(data);
         return lc;
+    }
+
+    private NumberAxis createXAxis(Variable varX){  // Achsen werden sobal man die Variabeln wechselt über Combobox doppelt dargestellt!
+        NumberAxis xAxis= new NumberAxis();
+        xAxis.setLabel(varX.toString());
+        xAxis.setForceZeroInRange(false);
+
+        return xAxis;
+    }
+
+    private NumberAxis createYAxis(Variable varY){
+        NumberAxis yAxis= new NumberAxis();
+        yAxis.setLabel(varY.toString());
+        yAxis.setForceZeroInRange(false);
+
+        return yAxis;
     }
 
 }
