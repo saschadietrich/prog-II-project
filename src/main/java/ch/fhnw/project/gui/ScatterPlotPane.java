@@ -29,6 +29,7 @@ public class ScatterPlotPane extends VBox {
         StackPane stackPane = new StackPane();
         StackPane stackpane2 = new StackPane(); // Zusätzlich hinzugefügt um LinienChart besser löschen zu können, bekomme jetzt Children: duplicate children added: parent = StackPane@4e03025d Fehler
 
+        scControlPane.cb.setSelected(false);   // Sonst bleibt das Häcken beim Variabelwechsel, aber zeichnet keine neue Linie
         this.getChildren().clear();
         stackPane.getChildren().clear();
 
