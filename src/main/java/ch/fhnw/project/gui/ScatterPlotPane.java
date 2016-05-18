@@ -15,31 +15,20 @@ public class ScatterPlotPane extends VBox {
 
     private StackPane stackPane;
     private LineChart<Number,Number> lineChart;
-    private ScatterChart<Number, Number> scatterChart;;
+    private ScatterChart<Number, Number> scatterChart;
     private ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
 
     public ScatterPlotPane(Variable varX, Variable varY) {
 
         stackPane = new StackPane();
 
-        NumberAxis xAxis = new NumberAxis();
-        xAxis.setLabel(varX.toString());
-        NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel(varY.toString());
+        lineChart = plotLineChart(createDataSeries(varX,varY),varX,varY);  // lineChart = ... muss man gar nicht schreiben weil das liefert die Funktion eig schon
 
-        lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setVisible(false);
-        lineChart.legendVisibleProperty().set(false);
+        scatterChart = plotScatterChart(createDataSeries(varX,varY),varX,varY); // siehe oben
 
-        scatterChart = new ScatterChart<>(xAxis, yAxis);
-        scatterChart.setStyle("-fx-background-color: transparent");
-        scatterChart.legendVisibleProperty().set(false);
-
-        scControlPane.cb.setSelected(false);
         scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(scControlPane.cb.isSelected()){
                 lineChart.setVisible(true);
-                lineChart.legendVisibleProperty().set(false);
                 scatterChart.getXAxis().setVisible(false);
                 scatterChart.getYAxis().setVisible(false);
             }
@@ -61,8 +50,8 @@ public class ScatterPlotPane extends VBox {
 
         stackPane.getChildren().clear();
 
-        plotScatterChart(createDataSeries(variableX, variableY),variableX,variableY);
-        plotLineChart(createDataSeries(variableX,variableY),variableX,variableY);
+        scatterChart = plotScatterChart(createDataSeries(variableX, variableY),variableX,variableY);
+        lineChart = plotLineChart(createDataSeries(variableX,variableY),variableX,variableY);
 
         stackPane.getChildren().addAll(scatterChart,lineChart);
    }
@@ -87,18 +76,20 @@ public class ScatterPlotPane extends VBox {
         return dataSeries;
     }
 
-    private void plotScatterChart( XYChart.Series <Number,Number> data, Variable x, Variable y){
+    private ScatterChart <Number,Number> plotScatterChart( XYChart.Series <Number,Number> data, Variable x, Variable y){
         /*
         Creates a ScatterPlot
          */
         NumberAxis xAxis = createXAxis(x);
         NumberAxis yAxis = createYAxis(y);
         scatterChart = new ScatterChart<>(xAxis,yAxis);
-        scatterChart.getData().add(data);
+        scatterChart.setStyle("-fx-background-color: transparent");
         scatterChart.legendVisibleProperty().set(false);
+        scatterChart.getData().add(data);
+        return scatterChart;
     }
 
-    private void plotLineChart(XYChart.Series <Number,Number> data,Variable x, Variable y){
+    private LineChart<Number,Number> plotLineChart(XYChart.Series <Number,Number> data,Variable x, Variable y){
         /*
         Creates a LinePlot
          */
@@ -109,6 +100,8 @@ public class ScatterPlotPane extends VBox {
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.legendVisibleProperty().set(false);
         lineChart.setVisible(false);
+        scControlPane.cb.setSelected(false);
+        return lineChart;
     }
 
     private NumberAxis createXAxis(Variable varX){
