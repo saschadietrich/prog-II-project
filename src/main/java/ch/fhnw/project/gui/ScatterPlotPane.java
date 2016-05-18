@@ -17,9 +17,9 @@ public class ScatterPlotPane extends VBox {
     private LineChart<Number,Number> lineChart;
     private ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
 
-   /* public ScatterPlotPane() {
+    public ScatterPlotPane() {
 
-    }*/
+    }
 
     public void setUp(Variable variableX, Variable variableY) {
         /*
@@ -27,30 +27,29 @@ public class ScatterPlotPane extends VBox {
         * displays Scatter and LineChart via Checkbox selection (Listener to CheckBox in ScatterPlotControlPane class
         * */
         StackPane stackPane = new StackPane();
-        StackPane stackpane2 = new StackPane(); // Zusätzlich hinzugefügt um LinienChart besser löschen zu können, bekomme jetzt Children: duplicate children added: parent = StackPane@4e03025d Fehler
 
         scControlPane.cb.setSelected(false);   // Sonst bleibt das Häcken beim Variabelwechsel, aber zeichnet keine neue Linie
         this.getChildren().clear();
         stackPane.getChildren().clear();
 
         ScatterChart<Number, Number> scatterChart = plotScatterChart(createDataSeries(variableX, variableY),variableX,variableY);
+        lineChart = plotLineChart(createDataSeries(variableX,variableY),variableX,variableY);
+        lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+        lineChart.setVisible(false);
         scatterChart.setStyle("-fx-background-color: transparent");
         scatterChart.legendVisibleProperty().set(false);  //  schaltet Legende aus, verhindert die komische Achsenverschiebung wenn man Panes aufeinander legt
 
         scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(scControlPane.cb.isSelected()){
-                lineChart = plotLineChart(createDataSeries(variableX,variableY),variableX,variableY);
-                lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+                lineChart.setVisible(true);
                 lineChart.legendVisibleProperty().set(false);
-                stackpane2.getChildren().add(lineChart);  //denke ich nicht optimal
-                stackPane.getChildren().add(stackpane2);
             }
             else {
-                stackpane2.getChildren().clear();
+                lineChart.setVisible(false);
             }
         });
 
-        stackPane.getChildren().add(scatterChart);
+        stackPane.getChildren().addAll(scatterChart,lineChart);
         this.getChildren().addAll(scControlPane, stackPane);
    }
 
