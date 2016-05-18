@@ -4,7 +4,6 @@ package ch.fhnw.project.gui;
 import ch.fhnw.project.model.DataModel;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
