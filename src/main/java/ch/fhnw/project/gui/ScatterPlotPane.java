@@ -46,7 +46,8 @@ public class ScatterPlotPane extends VBox {
             }
             else {
                 lineChart.setVisible(false);
-            }lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+            }
+            //lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         });
 
         stackPane.getChildren().addAll(scatterChart,lineChart);
@@ -59,37 +60,17 @@ public class ScatterPlotPane extends VBox {
         * Gets Variables from ControlPane class
         * displays Scatter and LineChart via Checkbox selection (Listener to CheckBox in ScatterPlotControlPane class
         * */
-        //StackPane stackPane = new StackPane();
 
-
-        //scatterChart.getData().clear();
-        //lineChart.getData().clear();
-        //this.getChildren().clear();
         stackPane.getChildren().clear();
         plotScatterChart(createDataSeries(variableX, variableY),variableX,variableY);
         plotLineChart(createDataSeries(variableX,variableY),variableX,variableY);
-       // lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
-        //lineChart.setVisible(false);
-       // scatterChart.setStyle("-fx-background-color: transparent");
-       // scatterChart.legendVisibleProperty().set(false);
-
-       /* scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if(scControlPane.cb.isSelected()){
-                lineChart.setVisible(true);
-                lineChart.legendVisibleProperty().set(false);
-            }
-            else {
-                lineChart.setVisible(false);
-            }
-        })*/;
 
         stackPane.getChildren().addAll(scatterChart,lineChart);
-        //this.getChildren().addAll(scControlPane, stackPane);
    }
 
     private XYChart.Series<Number,Number> createDataSeries(Variable varX, Variable varY){
         /*
-        Creates DataSeries for Line and Scatter Plot and returns it
+        Creates DataSeries for Line and Scatter Plot
          */
         XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
 
@@ -109,28 +90,26 @@ public class ScatterPlotPane extends VBox {
 
     private void plotScatterChart( XYChart.Series <Number,Number> data, Variable x, Variable y){
         /*
-        Creates a ScatterPlot and returns it
+        Creates a ScatterPlot
          */
         NumberAxis xAxis = createXAxis(x);
         NumberAxis yAxis = createYAxis(y);
-        scatterChart.getData().clear();
+        scatterChart = new ScatterChart<>(xAxis,yAxis);
         scatterChart.getData().add(data);
         scatterChart.legendVisibleProperty().set(false);
     }
 
     private void /*LineChart<Number,Number>*/ plotLineChart(XYChart.Series <Number,Number> data,Variable x, Variable y){
         /*
-        Creates a LinePlot and returns it
+        Creates a LinePlot
          */
         NumberAxis xAxis= createXAxis(x);
         NumberAxis yAxis = createYAxis(y);
         lineChart = new LineChart<>(xAxis,yAxis);
-        lineChart.getData().clear();
         lineChart.getData().add(data);
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.legendVisibleProperty().set(false);
         lineChart.setVisible(false);
-        //return lc;
     }
 
     private NumberAxis createXAxis(Variable varX){
