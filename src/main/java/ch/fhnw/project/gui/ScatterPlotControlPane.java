@@ -65,7 +65,7 @@ public class ScatterPlotControlPane extends HBox {
         // man muss iwie die Custom Color Choice ausschalten können --> bei mir hängt sich das Programm dann immer auf, vllt auch ein Linux Problem
     }
 
-    private ColorPicker sendColorpicker() {
+    public  ColorPicker sendColorpicker() {
         return colorPicker;
     }
 
