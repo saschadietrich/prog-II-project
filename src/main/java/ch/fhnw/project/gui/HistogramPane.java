@@ -2,7 +2,6 @@ package ch.fhnw.project.gui;
 
 import ch.fhnw.project.model.DataModel;
 import ch.fhnw.project.model.Variable;
-import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -48,18 +47,9 @@ public class HistogramPane extends StackPane{
 
         for (Double aDouble : list) {
             int value = (int)(((aDouble-variable.getMin())/differenz) * (numberOfBin));
-            int index = Math.min(value,numberOfBin-1);// verschiebt werte die genau an der Bin grenze ist -->
+            int index = Math.min(value,numberOfBin-1);// verschiebt werte die genau an der obersten bin grenze sind, gibt sonst ein bin zuviel
             bin[index]++;
         }
-
-//        System.out.println("Pins: " +numberOfBin);
-//        System.out.println("Pins: " +numberOfBin);
-//        int total=0;
-//        for (int pin : bin) {
-//            total += pin;
-//            System.out.println(pin);
-//        }
-//        System.out.println("Size: "+ variable.getValues().size() + " Sum of Pinssize: "+ total);
 
         return bin;
     }

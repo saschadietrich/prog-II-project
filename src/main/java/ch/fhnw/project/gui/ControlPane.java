@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ControlPane extends HBox {
-    private DataModel dataModel;
     private ScatterPlotPane scatterPlotPane;
     private HistogramPane histogramPane1, histogramPane2;
     private Variable variableX;
@@ -21,7 +20,6 @@ public class ControlPane extends HBox {
     private ComboBox<Variable> yChooser = new ComboBox<>();
 
     public ControlPane(DataModel dataModel, ScatterPlotPane scatterPlotPane, HistogramPane histogramPane1, HistogramPane histogramPane2){
-        this.dataModel = dataModel;
         this.scatterPlotPane = scatterPlotPane;
         this.histogramPane1 = histogramPane1;
         this.histogramPane2 = histogramPane2;
