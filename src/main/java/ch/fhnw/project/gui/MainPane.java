@@ -2,11 +2,13 @@ package ch.fhnw.project.gui;
 
 
 import ch.fhnw.project.model.DataModel;
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class MainPane extends Pane {
+public class MainPane extends StackPane {
 
     public MainPane(DataModel dataModel){
 
@@ -20,6 +22,7 @@ public class MainPane extends Pane {
         HBox hBox = new HBox();
 
         hBox.getChildren().addAll(histogramPane1,histogramPane2);
+        hBox.setAlignment(Pos.CENTER);
         vBox.getChildren().addAll(controlPane,scatterPlotPane,hBox);
         this.getChildren().add(vBox);
     }

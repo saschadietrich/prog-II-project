@@ -2,18 +2,18 @@ package ch.fhnw.project.gui;
 
 import ch.fhnw.project.model.DataModel;
 import ch.fhnw.project.model.Variable;
+import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
-public class HistogramPane extends Pane{
+public class HistogramPane extends StackPane{
 
     private CategoryAxis xAxis = new CategoryAxis();
     private NumberAxis yAxis = new NumberAxis();
@@ -38,29 +38,22 @@ public class HistogramPane extends Pane{
     private int[] biuldGroup(Variable variable){
         //kreiert die bins und auch ihre grössen
 
-        double step = getStepSize(variable);
+        double differenz = variable.getMax()-variable.getMin();
         int[] bin = new int[numberOfBin];
-        List<Double> sortList = new ArrayList<>(variable.getValues());
-        Collections.sort(sortList); // sortierte lieste zum schneller bins füllen
+        List<Double> list = variable.getValues();
 
         for(int i = 0; i< numberOfBin; i++){
             bin[i]=0;
         }
 
-        int binNumber =0;
-        for (Double aDouble : sortList) {
-            if (aDouble <= (variable.getMin()+step*(binNumber+1))){
-                bin[binNumber]++;
-            } else {
-                binNumber++;
-                bin[binNumber]++;
-            }
+        for (Double aDouble : list) {
+            int value = (int)(((aDouble-variable.getMin())/differenz) * (numberOfBin));
+            int index = Math.min(value,numberOfBin-1);// verschiebt werte die genau an der Bin grenze ist -->
+            bin[index]++;
         }
 
 //        System.out.println("Pins: " +numberOfBin);
-//        System.out.println("Step: "+ step);
 //        System.out.println("Pins: " +numberOfBin);
-//        System.out.println("Step: "+ step);
 //        int total=0;
 //        for (int pin : bin) {
 //            total += pin;
@@ -110,6 +103,6 @@ public class HistogramPane extends Pane{
 
     public static void setBin(DataModel dataModel){
         //berrechnet einmalig die benötigten bins --> gilt für alle Datensaötz einer Datei
-        numberOfBin = (int)Math.round(Math.sqrt(dataModel.getVariable().get(0).getValues().size()));
+        numberOfBin = (int)(Math.sqrt(dataModel.getVariable().get(0).getValues().size()));
     }
 }
