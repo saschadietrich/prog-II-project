@@ -17,7 +17,7 @@ public class ScatterPlotControlPane extends HBox {
 //    private HBox scatterPanelBox = new HBox();
 
     public Slider slider = new Slider();
-    public static ColorPicker colorPicker = new ColorPicker();
+    public ColorPicker colorPicker = new ColorPicker();
     //public ToggleGroup toggleGroup = new ToggleGroup();
     public CheckBox cb = new CheckBox();
    /* public RadioButton scatterRB = new RadioButton("Scatter Plot");
@@ -64,9 +64,4 @@ public class ScatterPlotControlPane extends HBox {
         colorPicker.setValue(Color.BLACK);
         // man muss iwie die Custom Color Choice ausschalten können --> bei mir hängt sich das Programm dann immer auf, vllt auch ein Linux Problem
     }
-
-    public static ColorPicker sendColorpicker() {
-        return colorPicker;
-    }
-
 }
