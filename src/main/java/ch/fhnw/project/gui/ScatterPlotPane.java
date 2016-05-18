@@ -14,10 +14,43 @@ import java.util.List;
 
 public class ScatterPlotPane extends VBox {
 
+    private StackPane stackPane;
     private LineChart<Number,Number> lineChart;
+    private ScatterChart<Number, Number> scatterChart;
+   // private NumberAxis xAxis,yAxis;
     private ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
 
-    public ScatterPlotPane() {
+    public ScatterPlotPane(Variable varX, Variable varY) {
+
+
+        stackPane = new StackPane();
+        NumberAxis xAxis = new NumberAxis();
+        xAxis.setLabel(varX.toString());
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel(varY.toString());
+
+        lineChart = new LineChart<>(xAxis, yAxis);
+        lineChart.setVisible(false);
+        lineChart.legendVisibleProperty().set(false);
+
+        scatterChart = new ScatterChart<>(xAxis, yAxis);
+        scatterChart.setStyle("-fx-background-color: transparent");
+        scatterChart.legendVisibleProperty().set(false);
+        //lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+
+        scControlPane.cb.setSelected(false);
+        scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(scControlPane.cb.isSelected()){
+                lineChart.setVisible(true);
+                lineChart.legendVisibleProperty().set(false);
+            }
+            else {
+                lineChart.setVisible(false);
+            }lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+        });
+
+        stackPane.getChildren().addAll(scatterChart,lineChart);
+        this.getChildren().addAll(scControlPane, stackPane);
 
     }
 
@@ -26,20 +59,21 @@ public class ScatterPlotPane extends VBox {
         * Gets Variables from ControlPane class
         * displays Scatter and LineChart via Checkbox selection (Listener to CheckBox in ScatterPlotControlPane class
         * */
-        StackPane stackPane = new StackPane();
+        //StackPane stackPane = new StackPane();
 
-        scControlPane.cb.setSelected(false);   // Sonst bleibt das Häcken beim Variabelwechsel, aber zeichnet keine neue Linie
-        this.getChildren().clear();
+
+        //scatterChart.getData().clear();
+        //lineChart.getData().clear();
+        //this.getChildren().clear();
         stackPane.getChildren().clear();
+        plotScatterChart(createDataSeries(variableX, variableY),variableX,variableY);
+        plotLineChart(createDataSeries(variableX,variableY),variableX,variableY);
+       // lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+        //lineChart.setVisible(false);
+       // scatterChart.setStyle("-fx-background-color: transparent");
+       // scatterChart.legendVisibleProperty().set(false);
 
-        ScatterChart<Number, Number> scatterChart = plotScatterChart(createDataSeries(variableX, variableY),variableX,variableY);
-        lineChart = plotLineChart(createDataSeries(variableX,variableY),variableX,variableY);
-        lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
-        lineChart.setVisible(false);
-        scatterChart.setStyle("-fx-background-color: transparent");
-        scatterChart.legendVisibleProperty().set(false);  //  schaltet Legende aus, verhindert die komische Achsenverschiebung wenn man Panes aufeinander legt
-
-        scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
+       /* scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(scControlPane.cb.isSelected()){
                 lineChart.setVisible(true);
                 lineChart.legendVisibleProperty().set(false);
@@ -47,10 +81,10 @@ public class ScatterPlotPane extends VBox {
             else {
                 lineChart.setVisible(false);
             }
-        });
+        })*/;
 
         stackPane.getChildren().addAll(scatterChart,lineChart);
-        this.getChildren().addAll(scControlPane, stackPane);
+        //this.getChildren().addAll(scControlPane, stackPane);
    }
 
     private XYChart.Series<Number,Number> createDataSeries(Variable varX, Variable varY){
@@ -73,26 +107,30 @@ public class ScatterPlotPane extends VBox {
         return dataSeries;
     }
 
-    private ScatterChart<Number,Number> plotScatterChart( XYChart.Series <Number,Number> data, Variable x, Variable y){
+    private void plotScatterChart( XYChart.Series <Number,Number> data, Variable x, Variable y){
         /*
         Creates a ScatterPlot and returns it
          */
         NumberAxis xAxis = createXAxis(x);
         NumberAxis yAxis = createYAxis(y);
-        ScatterChart<Number, Number> sc = new ScatterChart<>(xAxis,yAxis);
-        sc.getData().add(data);
-        return sc;
+        scatterChart.getData().clear();
+        scatterChart.getData().add(data);
+        scatterChart.legendVisibleProperty().set(false);
     }
 
-    private LineChart<Number,Number> plotLineChart(XYChart.Series <Number,Number> data,Variable x, Variable y){
+    private void /*LineChart<Number,Number>*/ plotLineChart(XYChart.Series <Number,Number> data,Variable x, Variable y){
         /*
         Creates a LinePlot and returns it
          */
-        NumberAxis xAxis = createXAxis(x);
+        NumberAxis xAxis= createXAxis(x);
         NumberAxis yAxis = createYAxis(y);
-        LineChart<Number,Number> lc = new LineChart<>(xAxis,yAxis);
-        lc.getData().add(data);
-        return lc;
+        lineChart = new LineChart<>(xAxis,yAxis);
+        lineChart.getData().clear();
+        lineChart.getData().add(data);
+        lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+        lineChart.legendVisibleProperty().set(false);
+        lineChart.setVisible(false);
+        //return lc;
     }
 
     private NumberAxis createXAxis(Variable varX){
