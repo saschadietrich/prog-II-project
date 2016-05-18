@@ -1,6 +1,5 @@
 package ch.fhnw.project.gui;
 
-
 import ch.fhnw.project.model.Variable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -16,14 +15,13 @@ public class ScatterPlotPane extends VBox {
 
     private StackPane stackPane;
     private LineChart<Number,Number> lineChart;
-    private ScatterChart<Number, Number> scatterChart;
-   // private NumberAxis xAxis,yAxis;
+    private ScatterChart<Number, Number> scatterChart;;
     private ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
 
     public ScatterPlotPane(Variable varX, Variable varY) {
 
-
         stackPane = new StackPane();
+
         NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel(varX.toString());
         NumberAxis yAxis = new NumberAxis();
@@ -36,32 +34,33 @@ public class ScatterPlotPane extends VBox {
         scatterChart = new ScatterChart<>(xAxis, yAxis);
         scatterChart.setStyle("-fx-background-color: transparent");
         scatterChart.legendVisibleProperty().set(false);
-        //lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
 
         scControlPane.cb.setSelected(false);
         scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(scControlPane.cb.isSelected()){
                 lineChart.setVisible(true);
                 lineChart.legendVisibleProperty().set(false);
+                scatterChart.getXAxis().setVisible(false);
+                scatterChart.getYAxis().setVisible(false);
             }
             else {
                 lineChart.setVisible(false);
+                scatterChart.getXAxis().setVisible(true);
+                scatterChart.getYAxis().setVisible(true);
             }
-            //lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         });
-
         stackPane.getChildren().addAll(scatterChart,lineChart);
         this.getChildren().addAll(scControlPane, stackPane);
-
     }
 
     public void setUp(Variable variableX, Variable variableY) {
         /*
-        * Gets Variables from ControlPane class
-        * displays Scatter and LineChart via Checkbox selection (Listener to CheckBox in ScatterPlotControlPane class
-        * */
+        Gets Variables from ControlPane class
+        displays Scatter and LineChart via Checkbox selection (Listener to CheckBox in ScatterPlotControlPane class
+        */
 
         stackPane.getChildren().clear();
+
         plotScatterChart(createDataSeries(variableX, variableY),variableX,variableY);
         plotLineChart(createDataSeries(variableX,variableY),variableX,variableY);
 
@@ -99,7 +98,7 @@ public class ScatterPlotPane extends VBox {
         scatterChart.legendVisibleProperty().set(false);
     }
 
-    private void /*LineChart<Number,Number>*/ plotLineChart(XYChart.Series <Number,Number> data,Variable x, Variable y){
+    private void plotLineChart(XYChart.Series <Number,Number> data,Variable x, Variable y){
         /*
         Creates a LinePlot
          */
@@ -119,7 +118,6 @@ public class ScatterPlotPane extends VBox {
         NumberAxis xAxis= new NumberAxis();
         xAxis.setLabel(varX.toString());
         xAxis.setForceZeroInRange(false);
-
         return xAxis;
     }
 
@@ -130,8 +128,6 @@ public class ScatterPlotPane extends VBox {
         NumberAxis yAxis= new NumberAxis();
         yAxis.setLabel(varY.toString());
         yAxis.setForceZeroInRange(false);
-
         return yAxis;
     }
-
 }
