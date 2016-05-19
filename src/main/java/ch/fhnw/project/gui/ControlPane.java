@@ -8,9 +8,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ControlPane extends HBox {
     private ScatterPlotPane scatterPlotPane;
     private HistogramPane histogramPane1, histogramPane2;

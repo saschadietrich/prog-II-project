@@ -1,42 +1,30 @@
 package ch.fhnw.project.gui;
 
 import ch.fhnw.project.model.Variable;
-import javafx.scene.chart.*;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 
 import java.util.List;
 
+public class ScatterPlotPane3 extends VBox {
 
-public class ScatterPlotPane extends VBox {
     private StackPane stackPane;
-    /*private Variable variableX;
-    private Variable variableY;*/
     private LineChart<Number,Number> lineChart;
     private ScatterChart<Number, Number> scatterChart;
-    private ScatterChart<Number, Number> scatterChartBubble;
     private ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
 
-
-    public ScatterPlotPane(Variable varX, Variable varY, List<Variable> varZ) {
-
+    public ScatterPlotPane3(Variable varX, Variable varY) {
 
         stackPane = new StackPane();
 
         lineChart = plotLineChart(createDataSeries(varX,varY),varX,varY);  // lineChart = ... muss man gar nicht schreiben weil das liefert die Funktion eig schon
 
         scatterChart = plotScatterChart(createDataSeries(varX,varY),varX,varY); // siehe oben
-
-        scatterChartBubble = new ScatterChart<>(createXAxis(varX),createYAxis(varY));
-        scatterChartBubble.setVisible(false);
-        scatterChartBubble.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
-
-
-        for (Variable var : varZ) {
-            scControlPane.comboBoxBubblePlt.getItems().add(var);
-            //scControlPane.comboBoxBubblePlt.setValue(variableZ);
-        }
 
         scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(scControlPane.cb.isSelected()){
@@ -50,50 +38,23 @@ public class ScatterPlotPane extends VBox {
                 scatterChart.getYAxis().setVisible(true);
             }
         });
-
-        scControlPane.cb2.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue) {
-                scControlPane.comboBoxBubblePlt.setDisable(false);
-                scControlPane.cb.setDisable(true);
-
-                scControlPane.comboBoxBubblePlt.valueProperty().addListener((observable1, oldValue1, newValue1) -> {
-                    scatterChartBubble.getData().clear();
-                    scatterChartBubble.setVisible(true);
-                    scatterChartBubble = plotBubbleChart(varX,varY, newValue1); //braucht die Variabeln vom setup sonst ändert der bubble plot nicht
-                    scatterChartBubble.getYAxis().setVisible(false);  // iwie schaltet das die Achsen nicht aus
-                    scatterChartBubble.getYAxis().setVisible(false);
-                });
-            }
-            else{
-                scatterChartBubble.getData().clear();
-                scControlPane.comboBoxBubblePlt.setDisable(true);
-                scControlPane.cb.setDisable(false);
-                scatterChartBubble.setVisible(false);
-                scatterChart.setVisible(true);
-            }
-        });
-
-        stackPane.getChildren().addAll(scatterChartBubble,scatterChart,lineChart);
+        stackPane.getChildren().addAll(scatterChart,lineChart);
         this.getChildren().addAll(scControlPane, stackPane);
     }
 
-    public void setUp(Variable varX, Variable varY) {
+    public void setUp(Variable variableX, Variable variableY) {
         /*
         Gets Variables from ControlPane class
         displays Scatter and LineChart via Checkbox selection (Listener to CheckBox in ScatterPlotControlPane class
         */
 
-       // muss iwie die neuen Variabeln zurückgeben;
-
         stackPane.getChildren().clear();
 
-        scatterChart = plotScatterChart(createDataSeries(varX, varY),varX,varY);
-        lineChart = plotLineChart(createDataSeries(varX,varY),varX,varY);
-        scatterChartBubble = new ScatterChart<>(createXAxis(varX),createYAxis(varY));
-        scatterChartBubble.setVisible(false);
+        scatterChart = plotScatterChart(createDataSeries(variableX, variableY),variableX,variableY);
+        lineChart = plotLineChart(createDataSeries(variableX,variableY),variableX,variableY);
 
-        stackPane.getChildren().addAll(scatterChart,lineChart,scatterChartBubble);
-    }
+        stackPane.getChildren().addAll(scatterChart,lineChart);
+   }
 
     private XYChart.Series<Number,Number> createDataSeries(Variable varX, Variable varY){
         /*
@@ -122,7 +83,7 @@ public class ScatterPlotPane extends VBox {
         NumberAxis xAxis = createXAxis(x);
         NumberAxis yAxis = createYAxis(y);
         scatterChart = new ScatterChart<>(xAxis,yAxis);
-        scatterChart.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
+        scatterChart.setStyle("-fx-background-color: transparent");
         scatterChart.legendVisibleProperty().set(false);
         scatterChart.getData().add(data);
         return scatterChart;
@@ -136,33 +97,11 @@ public class ScatterPlotPane extends VBox {
         NumberAxis yAxis = createYAxis(y);
         lineChart = new LineChart<>(xAxis,yAxis);
         lineChart.getData().add(data);
-        lineChart.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.legendVisibleProperty().set(false);
         lineChart.setVisible(false);
         scControlPane.cb.setSelected(false);
         return lineChart;
-    }
-
-    private ScatterChart<Number,Number> plotBubbleChart(Variable x, Variable y, Variable z){
-
-        XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
-
-        for (int i = 0; i < x.getValues().size(); i++) {   // Problem --> Was ist wenn X und Y nicht gleich gross sind!
-            XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(x.getValues().get(i),y.getValues().get(i),z.getValues().get(i));
-            Circle circle = new Circle();
-            circle.setRadius(z.getValues().get(i)*0.1);
-            scControlPane.slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-                circle.setRadius(newValue.doubleValue()/oldValue.doubleValue()*circle.getRadius());
-            });
-            circle.fillProperty().bind(scControlPane.colorPicker.valueProperty());
-            dataPoint.setNode(circle);
-            dataSeries.getData().add(dataPoint);
-        }
-        scatterChartBubble.getData().add(dataSeries);
-        scatterChartBubble.setLegendVisible(false);
-
-        return scatterChartBubble;
     }
 
     private NumberAxis createXAxis(Variable varX){
@@ -184,5 +123,4 @@ public class ScatterPlotPane extends VBox {
         yAxis.setForceZeroInRange(false);
         return yAxis;
     }
-
 }
