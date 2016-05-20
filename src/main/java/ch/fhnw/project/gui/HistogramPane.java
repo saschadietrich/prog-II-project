@@ -2,6 +2,7 @@ package ch.fhnw.project.gui;
 
 import ch.fhnw.project.model.DataModel;
 import ch.fhnw.project.model.Variable;
+import javafx.geometry.Side;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -23,6 +24,7 @@ public class HistogramPane extends StackPane{
         barChart.setBarGap(0);
         barChart.setCategoryGap(0);
         barChart.setLegendVisible(false);
+        barChart.setTitleSide(Side.BOTTOM);
         this.getChildren().add(barChart);
     }
 
@@ -67,7 +69,6 @@ public class HistogramPane extends StackPane{
 
         for (int i = 0; i< numberOfBin; i++){
             dataPoints.getData().add(new XYChart.Data<>(pinName.get(i),pins[i]));
-
         }
         barChart.getData().add(dataPoints);
     }
@@ -94,5 +95,10 @@ public class HistogramPane extends StackPane{
     public static void setBin(DataModel dataModel){
         //berrechnet einmalig die benötigten bins --> gilt für alle Datensaötz einer Datei
         numberOfBin = (int)(Math.sqrt(dataModel.getVariable().get(0).getValues().size()));
+    }
+
+    private void color(){
+        barChart.getData().get(0).getData().get(0).getNode().setStyle("-fx-background-color: black,red;");
+
     }
 }

@@ -16,10 +16,10 @@ public class LineReader implements DataReader {
     public DataModel creatingModel(File file) throws FileNotFoundException {
 
         Scanner scanner = new Scanner(file);
-        int amountofVariables = Integer.parseInt(scanner.nextLine());
+        int amountOfVariables = Integer.parseInt(scanner.nextLine());
         List<String> variableNames = new ArrayList<>();
 
-        for (int row = amountofVariables; row <= (amountofVariables+1); row++) { //Scannt bis zum Delimiter
+        for (int row = 0; row < (amountOfVariables); row++) { //Scannt bis zum Delimiter
                 variableNames.add(scanner.nextLine());
             }
 

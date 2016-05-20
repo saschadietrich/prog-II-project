@@ -11,8 +11,8 @@ import java.util.List;
 
 public class ScatterPlotPane extends VBox {
     private StackPane stackPane;
-    /*private Variable variableX;
-    private Variable variableY;*/
+    private Variable variableX = null;
+    private Variable variableY = null;
     private LineChart<Number,Number> lineChart;
     private ScatterChart<Number, Number> scatterChart;
     private ScatterChart<Number, Number> scatterChartBubble;
@@ -21,11 +21,11 @@ public class ScatterPlotPane extends VBox {
 
     public ScatterPlotPane(Variable varX, Variable varY, List<Variable> varZ) {
 
-
         stackPane = new StackPane();
+        variableY =varY;
+        variableX =varX;
 
         lineChart = plotLineChart(createDataSeries(varX,varY),varX,varY);  // lineChart = ... muss man gar nicht schreiben weil das liefert die Funktion eig schon
-
         scatterChart = plotScatterChart(createDataSeries(varX,varY),varX,varY); // siehe oben
 
         scatterChartBubble = new ScatterChart<>(createXAxis(varX),createYAxis(varY));
@@ -59,7 +59,7 @@ public class ScatterPlotPane extends VBox {
                 scControlPane.comboBoxBubblePlt.valueProperty().addListener((observable1, oldValue1, newValue1) -> {
                     scatterChartBubble.getData().clear();
                     scatterChartBubble.setVisible(true);
-                    scatterChartBubble = plotBubbleChart(varX,varY, newValue1); //braucht die Variabeln vom setup sonst ändert der bubble plot nicht
+                    scatterChartBubble = plotBubbleChart(variableX,variableY, newValue1); //braucht die Variabeln vom setup sonst ändert der bubble plot nicht
                     scatterChartBubble.getYAxis().setVisible(false);  // iwie schaltet das die Achsen nicht aus
                     scatterChartBubble.getYAxis().setVisible(false);
                 });
@@ -83,10 +83,10 @@ public class ScatterPlotPane extends VBox {
         displays Scatter and LineChart via Checkbox selection (Listener to CheckBox in ScatterPlotControlPane class
         */
 
-       // muss iwie die neuen Variabeln zurückgeben;
+        variableX = varX;
+        variableY = varY;
 
         stackPane.getChildren().clear();
-
         scatterChart = plotScatterChart(createDataSeries(varX, varY),varX,varY);
         lineChart = plotLineChart(createDataSeries(varX,varY),varX,varY);
         scatterChartBubble = new ScatterChart<>(createXAxis(varX),createYAxis(varY));
