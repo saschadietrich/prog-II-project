@@ -12,7 +12,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class HistogramPane extends StackPane{
 
     private CategoryAxis xAxis = new CategoryAxis();
@@ -26,6 +25,7 @@ public class HistogramPane extends StackPane{
         barChart.setLegendVisible(false);
         barChart.setTitleSide(Side.BOTTOM);
         this.getChildren().add(barChart);
+        xAxis.setTickLabelsVisible(false);
     }
 
     public void change(Variable variable){
@@ -33,7 +33,6 @@ public class HistogramPane extends StackPane{
 
         barChart.setTitle(variable.toString());
         plot(biuldGroup(variable), getBinNames(variable));
-
     }
 
     private int[] biuldGroup(Variable variable){
@@ -63,7 +62,6 @@ public class HistogramPane extends StackPane{
 
     private void plot(int[] pins,List<String> pinName){
         //löscht und zeichnet das neue Histogramm
-
         barChart.getData().clear();
         XYChart.Series<String, Number> dataPoints = new XYChart.Series<>();
 
@@ -71,6 +69,10 @@ public class HistogramPane extends StackPane{
             dataPoints.getData().add(new XYChart.Data<>(pinName.get(i),pins[i]));
         }
         barChart.getData().add(dataPoints);
+
+        for (int i =0; i<numberOfBin;i++) {
+            barChart.getData().get(0).getData().get(i).getNode().setStyle("-fx-background-color: blue,blue;");
+        }
     }
 
     private List<String> getBinNames(Variable variable){
@@ -95,10 +97,5 @@ public class HistogramPane extends StackPane{
     public static void setBin(DataModel dataModel){
         //berrechnet einmalig die benötigten bins --> gilt für alle Datensaötz einer Datei
         numberOfBin = (int)(Math.sqrt(dataModel.getVariable().get(0).getValues().size()));
-    }
-
-    private void color(){
-        barChart.getData().get(0).getData().get(0).getNode().setStyle("-fx-background-color: black,red;");
-
     }
 }

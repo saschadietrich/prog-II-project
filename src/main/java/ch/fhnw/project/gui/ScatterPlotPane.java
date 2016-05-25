@@ -141,6 +141,7 @@ public class ScatterPlotPane extends VBox {
         lineChart.legendVisibleProperty().set(false);
         lineChart.setVisible(false);
         scControlPane.cb.setSelected(false);
+        lineChart.getData().get(0).getNode().setStyle("-fx-stroke:  blue ;");
         return lineChart;
     }
 

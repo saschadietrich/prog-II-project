@@ -41,17 +41,15 @@ public final class App extends Application {
             stage.setTitle(dataModel.getFilename());
             stage.show();
         } catch (Exception e) {
-            System.out.println("error!!: " + e.toString());
+            System.out.println("Error!!: " + e.toString());
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText(e.toString());
-            alert.setContentText("Was möchtest du machen");
+            alert.setContentText("Choose your Option");
             ButtonType buttonTypeOne = new ButtonType("Choose new File");
             ButtonType buttonTypeCancel = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
 
             alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
-
-            //e.printStackTrace();
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get()== buttonTypeOne){
                 start(stage);

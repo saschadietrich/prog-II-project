@@ -27,12 +27,12 @@ public class DataModel {
     public void checkData()throws Exception{
 
         if(variable.size()<=1){
-            throw new Exception("Zu wenig Variablen");
+            throw new Exception("To less variables");
         }
 
         for(int i=0; i<(variable.size()-1);i++){
             if(variable.get(i).getValues().size()!=variable.get(i+1).getValues().size()){
-                throw new Exception("Data not Compatible ");
+                throw new Exception("Variables has not the same number of values");
             }
         }
     }
