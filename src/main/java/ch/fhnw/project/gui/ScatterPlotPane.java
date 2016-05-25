@@ -19,23 +19,22 @@ public class ScatterPlotPane extends VBox {
     private ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
 
 
-    public ScatterPlotPane(Variable varX, Variable varY, List<Variable> varZ) {
+    public ScatterPlotPane( List<Variable> varZ) {
 
         stackPane = new StackPane();
-        variableY =varY;
-        variableX =varX;
+        variableY =varZ.get(0);
+        variableX =varZ.get(1);
 
-        lineChart = plotLineChart(createDataSeries(varX,varY),varX,varY);  // lineChart = ... muss man gar nicht schreiben weil das liefert die Funktion eig schon
-        scatterChart = plotScatterChart(createDataSeries(varX,varY),varX,varY); // siehe oben
+        lineChart = plotLineChart(createDataSeries(variableX,variableY));  // lineChart = ... muss man gar nicht schreiben weil das liefert die Funktion eig schon
+        scatterChart = plotScatterChart(createDataSeries(variableX,variableY)); // siehe oben
 
-        scatterChartBubble = new ScatterChart<>(createXAxis(varX),createYAxis(varY));
+        scatterChartBubble = new ScatterChart<>(createXAxis(variableX),createYAxis(variableY));
         scatterChartBubble.setVisible(false);
         scatterChartBubble.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
 
 
         for (Variable var : varZ) {
             scControlPane.comboBoxBubblePlt.getItems().add(var);
-            //scControlPane.comboBoxBubblePlt.setValue(variableZ);
         }
 
         scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -53,15 +52,16 @@ public class ScatterPlotPane extends VBox {
 
         scControlPane.cb2.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue) {
+                scControlPane.cb.setSelected(false);
                 scControlPane.comboBoxBubblePlt.setDisable(false);
                 scControlPane.cb.setDisable(true);
 
                 scControlPane.comboBoxBubblePlt.valueProperty().addListener((observable1, oldValue1, newValue1) -> {
                     scatterChartBubble.getData().clear();
                     scatterChartBubble.setVisible(true);
-                    scatterChartBubble = plotBubbleChart(variableX,variableY, newValue1); //braucht die Variabeln vom setup sonst ändert der bubble plot nicht
-                    scatterChartBubble.getYAxis().setVisible(false);  // iwie schaltet das die Achsen nicht aus
-                    scatterChartBubble.getYAxis().setVisible(false);
+                    scatterChartBubble = plotBubbleChart(newValue1); //braucht die Variabeln vom setup sonst ändert der bubble plot nicht
+                    scatterChart.getXAxis().setVisible(false);  // iwie schaltet das die Achsen nicht aus
+                    scatterChart.getYAxis().setVisible(false);
                 });
             }
             else{
@@ -70,6 +70,8 @@ public class ScatterPlotPane extends VBox {
                 scControlPane.cb.setDisable(false);
                 scatterChartBubble.setVisible(false);
                 scatterChart.setVisible(true);
+                scatterChart.getXAxis().setVisible(true);  // iwie schaltet das die Achsen nicht aus
+                scatterChart.getYAxis().setVisible(true);
             }
         });
 
@@ -87,8 +89,9 @@ public class ScatterPlotPane extends VBox {
         variableY = varY;
 
         stackPane.getChildren().clear();
-        scatterChart = plotScatterChart(createDataSeries(varX, varY),varX,varY);
-        lineChart = plotLineChart(createDataSeries(varX,varY),varX,varY);
+        scControlPane.cb2.setSelected(false);
+        scatterChart = plotScatterChart(createDataSeries(varX, varY));
+        lineChart = plotLineChart(createDataSeries(varX,varY));
         scatterChartBubble = new ScatterChart<>(createXAxis(varX),createYAxis(varY));
         scatterChartBubble.setVisible(false);
 
@@ -115,12 +118,12 @@ public class ScatterPlotPane extends VBox {
         return dataSeries;
     }
 
-    private ScatterChart <Number,Number> plotScatterChart( XYChart.Series <Number,Number> data, Variable x, Variable y){
+    private ScatterChart <Number,Number> plotScatterChart( XYChart.Series <Number,Number> data){
         /*
         Creates a ScatterPlot
          */
-        NumberAxis xAxis = createXAxis(x);
-        NumberAxis yAxis = createYAxis(y);
+        NumberAxis xAxis = createXAxis(variableX);
+        NumberAxis yAxis = createYAxis(variableY);
         scatterChart = new ScatterChart<>(xAxis,yAxis);
         scatterChart.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
         scatterChart.legendVisibleProperty().set(false);
@@ -128,12 +131,12 @@ public class ScatterPlotPane extends VBox {
         return scatterChart;
     }
 
-    private LineChart<Number,Number> plotLineChart(XYChart.Series <Number,Number> data,Variable x, Variable y){
+    private LineChart<Number,Number> plotLineChart(XYChart.Series <Number,Number> data){
         /*
         Creates a LinePlot
          */
-        NumberAxis xAxis= createXAxis(x);
-        NumberAxis yAxis = createYAxis(y);
+        NumberAxis xAxis= createXAxis(variableX);
+        NumberAxis yAxis = createYAxis(variableY);
         lineChart = new LineChart<>(xAxis,yAxis);
         lineChart.getData().add(data);
         lineChart.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
@@ -144,12 +147,12 @@ public class ScatterPlotPane extends VBox {
         return lineChart;
     }
 
-    private ScatterChart<Number,Number> plotBubbleChart(Variable x, Variable y, Variable z){
+    private ScatterChart<Number,Number> plotBubbleChart( Variable z){
 
         XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
 
-        for (int i = 0; i < x.getValues().size(); i++) {   // Problem --> Was ist wenn X und Y nicht gleich gross sind!
-            XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(x.getValues().get(i),y.getValues().get(i),z.getValues().get(i));
+        for (int i = 0; i < variableX.getValues().size(); i++) {   // Problem --> Was ist wenn X und Y nicht gleich gross sind!
+            XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(variableX.getValues().get(i),variableY.getValues().get(i),z.getValues().get(i));
             Circle circle = new Circle();
             circle.setRadius(z.getValues().get(i)*0.1);
             scControlPane.slider.valueProperty().addListener((observable, oldValue, newValue) -> {
