@@ -12,7 +12,7 @@ import java.util.Scanner;
 public final class TxtReader implements DataReader {
 
     @Override
-    public DataModel creatingModel(File file) throws FileNotFoundException {
+    public DataModel creatingDataModel(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
         DataModel dataStructure = new DataModel(Arrays.asList(scanner.nextLine().split("\\t")),file.getName());
         int numberOfVariable = (dataStructure.getVariable()).size();

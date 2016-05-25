@@ -71,7 +71,7 @@ public class ScatterPlotPane extends VBox {
     public void setUp(Variable varX, Variable varY) {
         /*
         Gets Variables from ControlPane class
-        displays Scatter and LineChart via Checkbox selection (Listener to CheckBox in ScatterPlotControlPane class
+        Changes Scatter-, Line- and BubblePlot to Variables changed in ControlPane class
         */
 
         variableX = varX;
@@ -126,7 +126,6 @@ public class ScatterPlotPane extends VBox {
         Creates a LinePlot
          */
         lineChart = new LineChart<>(createAxis(variableX),createAxis(variableY));
-        lineChart.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
         lineChart.getData().add(data);
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.legendVisibleProperty().set(false);
@@ -136,8 +135,9 @@ public class ScatterPlotPane extends VBox {
     }
 
     private void plotBubbleChart(){
-
-        scatterChartBubble.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
+        /*
+        Creates Data for BubbleChart and then creates BubblePlot and setting its conditions
+         */
         scControlPane.chechBoxLinePlot.setSelected(false);
         scControlPane.comboBoxBubblePlt.setDisable(false);
         scControlPane.chechBoxLinePlot.setDisable(true);
@@ -149,7 +149,7 @@ public class ScatterPlotPane extends VBox {
 
         XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
 
-        for (int i = 0; i < variableX.getValues().size(); i++) {   // Problem --> Was ist wenn X und Y nicht gleich gross sind!
+        for (int i = 0; i < variableX.getValues().size(); i++) {
             XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(variableX.getValues().get(i),variableY.getValues().get(i),variableZ.getValues().get(i));
             Circle circle = new Circle();
             circle.setRadius(variableZ.getValues().get(i)*0.1);
@@ -166,7 +166,7 @@ public class ScatterPlotPane extends VBox {
 
     private NumberAxis createAxis(Variable var){
         /*
-        creates xAxis and returns it
+        creates x- or y- axis
          */
         NumberAxis axis= new NumberAxis();
         axis.setLabel(var.toString());

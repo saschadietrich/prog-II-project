@@ -30,9 +30,9 @@ public final class App extends Application {
 
         try {
             if(file.getName().endsWith(".txt")) {
-                dataModel = new TxtReader().creatingModel(file);
+                dataModel = new TxtReader().creatingDataModel(file);
             } else if (file.getName().endsWith(".lin")){
-                dataModel = new LineReader().creatingModel(file);
+                dataModel = new LineReader().creatingDataModel(file);
             }
             dataModel.checkData();
             MainPane mainpane = new MainPane(dataModel);
@@ -45,7 +45,7 @@ public final class App extends Application {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText(e.toString());
-            alert.setContentText("Choose your Option");
+            alert.setContentText("Choose your option");
             ButtonType buttonTypeOne = new ButtonType("Choose new File");
             ButtonType buttonTypeCancel = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
             e.printStackTrace(); // muss wieder weg
@@ -56,12 +56,8 @@ public final class App extends Application {
                 start(stage);
             }
         }
-
-
     }
-
     public static void main(String[] args) {
         launch(args);
     }
-
 }

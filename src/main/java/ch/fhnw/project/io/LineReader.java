@@ -13,15 +13,15 @@ import java.util.Scanner;
 public class LineReader implements DataReader {
 
     @Override
-    public DataModel creatingModel(File file) throws FileNotFoundException {
+    public DataModel creatingDataModel(File file) throws FileNotFoundException {
 
         Scanner scanner = new Scanner(file);
         int amountOfVariables = Integer.parseInt(scanner.nextLine());
         List<String> variableNames = new ArrayList<>();
 
-        for (int row = 0; row < (amountOfVariables); row++) { //Scannt bis zum Delimiter
+        for (int row = 0; row < (amountOfVariables); row++) {
                 variableNames.add(scanner.nextLine());
-            }
+        }
 
         String delimiter = scanner.nextLine();
         DataModel dataModel = new DataModel(variableNames, file.getName());
