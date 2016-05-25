@@ -35,8 +35,8 @@ public class ScatterPlotPane extends VBox {
         }
         scControlPane.comboBoxBubblePlt.setValue(variables.get(0));
 
-        scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if(scControlPane.cb.isSelected()){
+        scControlPane.chechBoxLinePlot.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(scControlPane.chechBoxLinePlot.isSelected()){
                 lineChart.setVisible(true);
                 scatterChart.getXAxis().setVisible(false);
                 scatterChart.getYAxis().setVisible(false);
@@ -47,13 +47,13 @@ public class ScatterPlotPane extends VBox {
             }
         });
 
-        scControlPane.cb2.setOnAction(event -> {
-            if(scControlPane.cb2.isSelected()) {
+        scControlPane.checkBoxBubblePlot.setOnAction(event -> {
+            if(scControlPane.checkBoxBubblePlot.isSelected()) {
                 variableZ = scControlPane.comboBoxBubblePlt.getValue();
                 plotBubbleChart();
             } else{
                 scControlPane.comboBoxBubblePlt.setDisable(true);
-                scControlPane.cb.setDisable(false);
+                scControlPane.chechBoxLinePlot.setDisable(false);
                 scatterChartBubble.setVisible(false);
                 scatterChart.getXAxis().setVisible(true);
                 scatterChart.getYAxis().setVisible(true);
@@ -83,7 +83,7 @@ public class ScatterPlotPane extends VBox {
         scatterChartBubble = new ScatterChart<>(createAxis(varX),createAxis(varY));
         scatterChartBubble.setVisible(false);
 
-        if(scControlPane.cb2.isSelected()){
+        if(scControlPane.checkBoxBubblePlot.isSelected()){
             plotBubbleChart();
         }
 
@@ -131,16 +131,16 @@ public class ScatterPlotPane extends VBox {
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.legendVisibleProperty().set(false);
         lineChart.setVisible(false);
-        scControlPane.cb.setSelected(false);
+        scControlPane.chechBoxLinePlot.setSelected(false);
         lineChart.getData().get(0).getNode().setStyle("-fx-stroke:  blue ;");
     }
 
     private void plotBubbleChart(){
 
         scatterChartBubble.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
-        scControlPane.cb.setSelected(false);
+        scControlPane.chechBoxLinePlot.setSelected(false);
         scControlPane.comboBoxBubblePlt.setDisable(false);
-        scControlPane.cb.setDisable(true);
+        scControlPane.chechBoxLinePlot.setDisable(true);
         scatterChartBubble.getData().clear();
         scatterChartBubble.setVisible(true);
         scControlPane.slider.setValue(2.0);

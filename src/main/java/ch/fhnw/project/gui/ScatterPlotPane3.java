@@ -26,8 +26,8 @@ public class ScatterPlotPane3 extends VBox {
 
         scatterChart = plotScatterChart(createDataSeries(varX,varY),varX,varY); // siehe oben
 
-        scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if(scControlPane.cb.isSelected()){
+        scControlPane.chechBoxLinePlot.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(scControlPane.chechBoxLinePlot.isSelected()){
                 lineChart.setVisible(true);
                 scatterChart.getXAxis().setVisible(false);
                 scatterChart.getYAxis().setVisible(false);
@@ -100,7 +100,7 @@ public class ScatterPlotPane3 extends VBox {
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.legendVisibleProperty().set(false);
         lineChart.setVisible(false);
-        scControlPane.cb.setSelected(false);
+        scControlPane.chechBoxLinePlot.setSelected(false);
         return lineChart;
     }
 
