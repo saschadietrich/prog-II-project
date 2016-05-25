@@ -25,13 +25,10 @@ public class ScatterPlotPane extends VBox {
         variableY =varZ.get(0);
         variableX =varZ.get(1);
 
-        lineChart = plotLineChart(createDataSeries(variableX,variableY));  // lineChart = ... muss man gar nicht schreiben weil das liefert die Funktion eig schon
-        scatterChart = plotScatterChart(createDataSeries(variableX,variableY)); // siehe oben
+        plotLineChart(createDataSeries(variableX,variableY));  // lineChart = ... muss man gar nicht schreiben weil das liefert die Funktion eig schon
+        plotScatterChart(createDataSeries(variableX,variableY)); // siehe oben
 
         scatterChartBubble = new ScatterChart<>(createXAxis(variableX),createYAxis(variableY));
-        scatterChartBubble.setVisible(false);
-        scatterChartBubble.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
-
 
         for (Variable var : varZ) {
             scControlPane.comboBoxBubblePlt.getItems().add(var);
@@ -56,25 +53,25 @@ public class ScatterPlotPane extends VBox {
                 scControlPane.comboBoxBubblePlt.setDisable(false);
                 scControlPane.cb.setDisable(true);
 
+
                 scControlPane.comboBoxBubblePlt.valueProperty().addListener((observable1, oldValue1, newValue1) -> {
                     scatterChartBubble.getData().clear();
                     scatterChartBubble.setVisible(true);
-                    scatterChartBubble = plotBubbleChart(newValue1); //braucht die Variabeln vom setup sonst ändert der bubble plot nicht
-                    scatterChart.getXAxis().setVisible(false);  // iwie schaltet das die Achsen nicht aus
+                    scControlPane.slider.setValue(2.0);
+                    scatterChartBubble = plotBubbleChart(newValue1);
+                    scatterChart.getXAxis().setVisible(false);
                     scatterChart.getYAxis().setVisible(false);
+
                 });
             }
             else{
-                scatterChartBubble.getData().clear();
                 scControlPane.comboBoxBubblePlt.setDisable(true);
                 scControlPane.cb.setDisable(false);
                 scatterChartBubble.setVisible(false);
-                scatterChart.setVisible(true);
-                scatterChart.getXAxis().setVisible(true);  // iwie schaltet das die Achsen nicht aus
+                scatterChart.getXAxis().setVisible(true);
                 scatterChart.getYAxis().setVisible(true);
             }
         });
-
         stackPane.getChildren().addAll(scatterChartBubble,scatterChart,lineChart);
         this.getChildren().addAll(scControlPane, stackPane);
     }
@@ -93,6 +90,7 @@ public class ScatterPlotPane extends VBox {
         scatterChart = plotScatterChart(createDataSeries(varX, varY));
         lineChart = plotLineChart(createDataSeries(varX,varY));
         scatterChartBubble = new ScatterChart<>(createXAxis(varX),createYAxis(varY));
+
         scatterChartBubble.setVisible(false);
 
         stackPane.getChildren().addAll(scatterChart,lineChart,scatterChartBubble);
@@ -139,7 +137,6 @@ public class ScatterPlotPane extends VBox {
         NumberAxis yAxis = createYAxis(variableY);
         lineChart = new LineChart<>(xAxis,yAxis);
         lineChart.getData().add(data);
-        lineChart.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.legendVisibleProperty().set(false);
         lineChart.setVisible(false);
