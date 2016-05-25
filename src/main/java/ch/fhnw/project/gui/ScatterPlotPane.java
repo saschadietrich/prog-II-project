@@ -35,7 +35,7 @@ public class ScatterPlotPane extends VBox {
         }
         scControlPane.comboBoxBubblePlt.setValue(variables.get(0));
 
-        scControlPane.chechBoxLinePlot.selectedProperty().addListener((observable, oldValue, newValue) -> {
+        scControlPane.chechBoxLinePlot.setOnAction(e -> {
             if(scControlPane.chechBoxLinePlot.isSelected()){
                 lineChart.setVisible(true);
                 scatterChart.getXAxis().setVisible(false);
