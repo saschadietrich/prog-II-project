@@ -10,9 +10,6 @@ public class DataModel {
 
     public DataModel(List<String> names,String filename){
         variable = names.stream().map(Variable::new).collect(Collectors.toList());
-        /*List<Variable> variable = new ArrayList<>();
-        for (String name : names) {
-            variable.add(new Variable(name));*/
         this.filename = filename;
     }
 

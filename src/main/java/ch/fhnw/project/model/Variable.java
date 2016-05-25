@@ -1,6 +1,5 @@
 package ch.fhnw.project.model;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +28,9 @@ public class Variable {
 
     }
 
-    /*public String getName(){
-        return name;
-    }*/
-
     public List<Double> getValues(){
         return values;
     }
-    // sollte noch min und max werte zurückgeben
 
     @Override
     public String toString(){

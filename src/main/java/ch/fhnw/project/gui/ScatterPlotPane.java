@@ -8,63 +8,50 @@ import javafx.scene.shape.Circle;
 
 import java.util.List;
 
-
 public class ScatterPlotPane extends VBox {
     private StackPane stackPane;
-    private Variable variableX = null;
-    private Variable variableY = null;
+    private Variable variableX ;
+    private Variable variableY;
+    private Variable variableZ;
     private LineChart<Number,Number> lineChart;
     private ScatterChart<Number, Number> scatterChart;
     private ScatterChart<Number, Number> scatterChartBubble;
-    private ScatterPlotControlPane scControlPane = new ScatterPlotControlPane();
+    private ScatterPlotControlPane scControlPane;
 
-
-    public ScatterPlotPane( List<Variable> varZ) {
+    public ScatterPlotPane( List<Variable> variables) {
 
         stackPane = new StackPane();
-        variableY =varZ.get(0);
-        variableX =varZ.get(1);
+        variableY =variables.get(1);
+        variableX =variables.get(0);
+        variableZ =variables.get(0);
 
-        plotLineChart(createDataSeries(variableX,variableY));  // lineChart = ... muss man gar nicht schreiben weil das liefert die Funktion eig schon
-        plotScatterChart(createDataSeries(variableX,variableY)); // siehe oben
+        scControlPane = new ScatterPlotControlPane();
+        plotLineChart(createDataSeries());
+        plotScatterChart(createDataSeries());
+        scatterChartBubble = new ScatterChart<>(createAxis(variableX),createAxis(variableY));
 
-        scatterChartBubble = new ScatterChart<>(createXAxis(variableX),createYAxis(variableY));
-
-        for (Variable var : varZ) {
+        for (Variable var : variables) {
             scControlPane.comboBoxBubblePlt.getItems().add(var);
         }
+        scControlPane.comboBoxBubblePlt.setValue(variables.get(0));
 
         scControlPane.cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(scControlPane.cb.isSelected()){
                 lineChart.setVisible(true);
                 scatterChart.getXAxis().setVisible(false);
                 scatterChart.getYAxis().setVisible(false);
-            }
-            else {
+            } else {
                 lineChart.setVisible(false);
                 scatterChart.getXAxis().setVisible(true);
                 scatterChart.getYAxis().setVisible(true);
             }
         });
 
-        scControlPane.cb2.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue) {
-                scControlPane.cb.setSelected(false);
-                scControlPane.comboBoxBubblePlt.setDisable(false);
-                scControlPane.cb.setDisable(true);
-
-
-                scControlPane.comboBoxBubblePlt.valueProperty().addListener((observable1, oldValue1, newValue1) -> {
-                    scatterChartBubble.getData().clear();
-                    scatterChartBubble.setVisible(true);
-                    scControlPane.slider.setValue(2.0);
-                    scatterChartBubble = plotBubbleChart(newValue1);
-                    scatterChart.getXAxis().setVisible(false);
-                    scatterChart.getYAxis().setVisible(false);
-
-                });
-            }
-            else{
+        scControlPane.cb2.setOnAction(event -> {
+            if(scControlPane.cb2.isSelected()) {
+                variableZ = scControlPane.comboBoxBubblePlt.getValue();
+                plotBubbleChart();
+            } else{
                 scControlPane.comboBoxBubblePlt.setDisable(true);
                 scControlPane.cb.setDisable(false);
                 scatterChartBubble.setVisible(false);
@@ -72,7 +59,12 @@ public class ScatterPlotPane extends VBox {
                 scatterChart.getYAxis().setVisible(true);
             }
         });
-        stackPane.getChildren().addAll(scatterChartBubble,scatterChart,lineChart);
+        scControlPane.comboBoxBubblePlt.valueProperty().addListener((observable, oldValue, newValue) -> {
+            variableZ = newValue;
+            plotBubbleChart();
+        });
+
+        stackPane.getChildren().addAll(scatterChart,lineChart,scatterChartBubble);
         this.getChildren().addAll(scControlPane, stackPane);
     }
 
@@ -86,26 +78,27 @@ public class ScatterPlotPane extends VBox {
         variableY = varY;
 
         stackPane.getChildren().clear();
-        scControlPane.cb2.setSelected(false);
-        scatterChart = plotScatterChart(createDataSeries(varX, varY));
-        lineChart = plotLineChart(createDataSeries(varX,varY));
-        scatterChartBubble = new ScatterChart<>(createXAxis(varX),createYAxis(varY));
-
+        plotScatterChart(createDataSeries());
+        plotLineChart(createDataSeries());
+        scatterChartBubble = new ScatterChart<>(createAxis(varX),createAxis(varY));
         scatterChartBubble.setVisible(false);
+
+        if(scControlPane.cb2.isSelected()){
+            plotBubbleChart();
+        }
 
         stackPane.getChildren().addAll(scatterChart,lineChart,scatterChartBubble);
     }
 
-    private XYChart.Series<Number,Number> createDataSeries(Variable varX, Variable varY){
+    private XYChart.Series<Number,Number> createDataSeries(){
         /*
         Creates DataSeries for Line and Scatter Plot
          */
         XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
+        List<Double> xValues = variableX.getValues();
+        List<Double> yValues = variableY.getValues();
 
-        List<Double> xValues = varX.getValues();
-        List<Double> yValues = varY.getValues();
-
-        for (int i = 0; i < xValues.size(); i++) {   // Problem --> Was ist wenn X und Y nicht gleich gross sind!
+        for (int i = 0; i < xValues.size(); i++) {
             XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(xValues.get(i),yValues.get(i));
             Circle circle = new Circle();
             circle.radiusProperty().bind(scControlPane.slider.valueProperty());
@@ -116,43 +109,50 @@ public class ScatterPlotPane extends VBox {
         return dataSeries;
     }
 
-    private ScatterChart <Number,Number> plotScatterChart( XYChart.Series <Number,Number> data){
+    private void plotScatterChart( XYChart.Series <Number,Number> data){
         /*
         Creates a ScatterPlot
          */
-        NumberAxis xAxis = createXAxis(variableX);
-        NumberAxis yAxis = createYAxis(variableY);
-        scatterChart = new ScatterChart<>(xAxis,yAxis);
+        scatterChart = new ScatterChart<>(createAxis(variableX),createAxis(variableY));
         scatterChart.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
         scatterChart.legendVisibleProperty().set(false);
         scatterChart.getData().add(data);
-        return scatterChart;
+        scatterChart.getXAxis().setVisible(false);
+        scatterChart.getYAxis().setVisible(false);
     }
 
-    private LineChart<Number,Number> plotLineChart(XYChart.Series <Number,Number> data){
+    private void plotLineChart(XYChart.Series <Number,Number> data){
         /*
         Creates a LinePlot
          */
-        NumberAxis xAxis= createXAxis(variableX);
-        NumberAxis yAxis = createYAxis(variableY);
-        lineChart = new LineChart<>(xAxis,yAxis);
+        lineChart = new LineChart<>(createAxis(variableX),createAxis(variableY));
+        lineChart.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
         lineChart.getData().add(data);
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.legendVisibleProperty().set(false);
         lineChart.setVisible(false);
         scControlPane.cb.setSelected(false);
         lineChart.getData().get(0).getNode().setStyle("-fx-stroke:  blue ;");
-        return lineChart;
     }
 
-    private ScatterChart<Number,Number> plotBubbleChart( Variable z){
+    private void plotBubbleChart(){
+
+        scatterChartBubble.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
+        scControlPane.cb.setSelected(false);
+        scControlPane.comboBoxBubblePlt.setDisable(false);
+        scControlPane.cb.setDisable(true);
+        scatterChartBubble.getData().clear();
+        scatterChartBubble.setVisible(true);
+        scControlPane.slider.setValue(2.0);
+        scatterChart.getXAxis().setVisible(false);
+        scatterChart.getYAxis().setVisible(false);
 
         XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
 
         for (int i = 0; i < variableX.getValues().size(); i++) {   // Problem --> Was ist wenn X und Y nicht gleich gross sind!
-            XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(variableX.getValues().get(i),variableY.getValues().get(i),z.getValues().get(i));
+            XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(variableX.getValues().get(i),variableY.getValues().get(i),variableZ.getValues().get(i));
             Circle circle = new Circle();
-            circle.setRadius(z.getValues().get(i)*0.1);
+            circle.setRadius(variableZ.getValues().get(i)*0.1);
             scControlPane.slider.valueProperty().addListener((observable, oldValue, newValue) -> {
                 circle.setRadius(newValue.doubleValue()/oldValue.doubleValue()*circle.getRadius());
             });
@@ -162,28 +162,15 @@ public class ScatterPlotPane extends VBox {
         }
         scatterChartBubble.getData().add(dataSeries);
         scatterChartBubble.setLegendVisible(false);
-
-        return scatterChartBubble;
     }
 
-    private NumberAxis createXAxis(Variable varX){
+    private NumberAxis createAxis(Variable var){
         /*
         creates xAxis and returns it
          */
-        NumberAxis xAxis= new NumberAxis();
-        xAxis.setLabel(varX.toString());
-        xAxis.setForceZeroInRange(false);
-        return xAxis;
+        NumberAxis axis= new NumberAxis();
+        axis.setLabel(var.toString());
+        axis.setForceZeroInRange(false);
+        return axis;
     }
-
-    private NumberAxis createYAxis(Variable varY){
-        /*
-        Creates yAxis and returns it
-         */
-        NumberAxis yAxis= new NumberAxis();
-        yAxis.setLabel(varY.toString());
-        yAxis.setForceZeroInRange(false);
-        return yAxis;
-    }
-
 }
