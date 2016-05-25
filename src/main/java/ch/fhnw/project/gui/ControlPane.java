@@ -31,13 +31,13 @@ public class ControlPane extends HBox {
         xChooser.valueProperty().addListener((observable, oldValue, newValue) -> {
             setNewValueHistogram(newValue,true);
             variableX = newValue;
-            setNewValueScatterPlot(variableX,variableY);
+            scatterPlotPane.setUp(variableX,variableY);
         });
 
         yChooser.valueProperty().addListener((observable, oldValue, newValue) -> {
             setNewValueHistogram(newValue,false);
             variableY = newValue;
-            setNewValueScatterPlot(variableX,variableY);
+            scatterPlotPane.setUp(variableX,variableY);
         });
 
         this.setPadding(new Insets(5,5,5,5));
@@ -53,13 +53,9 @@ public class ControlPane extends HBox {
         variableY = y;
         setNewValueHistogram(xChooser.getValue(),true);
         setNewValueHistogram(yChooser.getValue(), false);
-        setNewValueScatterPlot(x,y);
+        scatterPlotPane.setUp(variableX,variableY);
     }
-
-    private void setNewValueScatterPlot(Variable varX, Variable varY){
-        scatterPlotPane.setUp(varX,varY);
-    }
-
+    
     private void setNewValueHistogram(Variable newVariable, boolean xValue){
         if (xValue){
             histogramPane1.change(newVariable);
