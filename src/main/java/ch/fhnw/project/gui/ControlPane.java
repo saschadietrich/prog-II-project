@@ -6,6 +6,7 @@ import ch.fhnw.project.model.Variable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class ControlPane extends HBox {
@@ -20,6 +21,8 @@ public class ControlPane extends HBox {
         this.scatterPlotPane = scatterPlotPane;
         this.histogramPane1 = histogramPane1;
         this.histogramPane2 = histogramPane2;
+        Label xLabel = new Label("x-Axis");
+        Label yLabel = new Label("y-Axis");
 
         for (Variable variable : dataModel.getVariable()) {
             xChooser.getItems().add(variable);
@@ -43,7 +46,7 @@ public class ControlPane extends HBox {
         this.setPadding(new Insets(5,5,5,5));
         this.setAlignment(Pos.CENTER);
         this.setSpacing(10);
-        this.getChildren().addAll(xChooser,yChooser);
+        this.getChildren().addAll(xLabel,xChooser,yLabel,yChooser);
     }
 
     private void setComboBoxtoDefault(Variable x, Variable y){
