@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 
 import java.util.Locale;
 
-public class ScatterPlotControlPane extends HBox {
+public final class ScatterPlotControlPane extends HBox {
 
     public Slider slider;
     public ColorPicker colorPicker;

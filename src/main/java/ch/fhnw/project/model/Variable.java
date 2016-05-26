@@ -3,7 +3,7 @@ package ch.fhnw.project.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Variable {
+public final class Variable {
     private String name;
     private List<Double> values = new ArrayList<>();
     private double min, max;
@@ -13,6 +13,9 @@ public class Variable {
     }
 
     public void addValue(double value){
+        /*
+        Add new Value the the list
+         */
         if (values.size()<1){
             min = value;
             max = value;

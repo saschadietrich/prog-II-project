@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistogramPane extends StackPane{
+public final class HistogramPane extends StackPane{
 
     private CategoryAxis xAxis = new CategoryAxis();
     private NumberAxis yAxis = new NumberAxis();
@@ -29,15 +29,17 @@ public class HistogramPane extends StackPane{
     }
 
     public void change(Variable variable){
-        //funktion die aufgerufen wird um die Histogramme zu erzeugen
-
+        /*
+        Set new histogram
+         */
         barChart.setTitle(variable.toString());
         plot(biuldGroup(variable), getBinNames(variable));
     }
 
     private int[] biuldGroup(Variable variable){
-        //kreiert die bins und auch ihre grössen
-
+        /*
+        Create a List with the size of the bins and return it
+         */
         double differenz = variable.getMax()-variable.getMin();
         int[] bin = new int[numberOfBin];
         List<Double> list = variable.getValues();
@@ -56,12 +58,16 @@ public class HistogramPane extends StackPane{
     }
 
     private double getStepSize(Variable variable) {
-        //berrechnet die benötigten bins
+        /*
+        Calculate and return the size of the bins
+         */
         return (variable.getMax()-variable.getMin())/ numberOfBin;
     }
 
     private void plot(int[] pins,List<String> pinName){
-        //löscht und zeichnet das neue Histogramm
+        /*
+        Delete and create the new histogram
+         */
         barChart.getData().clear();
         XYChart.Series<String, Number> dataPoints = new XYChart.Series<>();
 
@@ -76,8 +82,9 @@ public class HistogramPane extends StackPane{
     }
 
     private List<String> getBinNames(Variable variable){
-        // kreirt eine Liste mit den Bins bezeichnungen
-
+        /*
+        Returns a list with the name for the bins
+         */
         double step = getStepSize(variable);
         List<String> names = new ArrayList<>();
 
@@ -88,14 +95,18 @@ public class HistogramPane extends StackPane{
     }
 
     private String format(double input) {
-        // formatiert zahlen auf 2 Kommastellen
+        /*
+        Format the text for xAxis
+         */
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
         double toFormat = ((double)Math.round(input*100))/100;
         return decimalFormat.format(toFormat);
     }
 
     public static void setBin(DataModel dataModel){
-        //berrechnet einmalig die benötigten bins --> gilt für alle Datensaötz einer Datei
+        /*
+        Calculate the number of bins
+         */
         numberOfBin = (int)(Math.sqrt(dataModel.getVariable().get(0).getValues().size()));
     }
 }

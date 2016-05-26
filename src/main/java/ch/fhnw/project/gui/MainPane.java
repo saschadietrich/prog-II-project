@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class MainPane extends StackPane {
+public final class MainPane extends StackPane {
 
     public MainPane(DataModel dataModel){
 

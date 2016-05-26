@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class LineReader implements DataReader {
+public final class LineReader implements DataReader {
 
     @Override
     public DataModel creatingDataModel(File file) throws FileNotFoundException {

@@ -4,7 +4,7 @@ package ch.fhnw.project.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DataModel {
+public final class DataModel {
     private List<Variable> variable;
     private String filename;
 
@@ -14,15 +14,23 @@ public class DataModel {
     }
 
     public List<Variable> getVariable(){
+        /*
+        Return a List of variables
+         */
         return variable;
     }
 
     public String getFilename(){
+        /*
+        Return the filename
+         */
         return filename;
     }
 
     public void checkData()throws Exception{
-
+        /*
+        Check if the data can be plot, if not it throws a exeption
+         */
         if(variable.size()<=1){
             throw new Exception("Too less variables");
         }

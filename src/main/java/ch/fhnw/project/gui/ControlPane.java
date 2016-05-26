@@ -9,7 +9,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-public class ControlPane extends HBox {
+public final class ControlPane extends HBox {
     private ScatterPlotPane scatterPlotPane;
     private HistogramPane histogramPane1, histogramPane2;
     private Variable variableX;

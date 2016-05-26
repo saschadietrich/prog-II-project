@@ -8,7 +8,7 @@ import javafx.scene.shape.Circle;
 
 import java.util.List;
 
-public class ScatterPlotPane extends VBox {
+public final class ScatterPlotPane extends VBox {
     private StackPane stackPane;
     private Variable variableX ;
     private Variable variableY;
