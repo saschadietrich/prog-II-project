@@ -2,7 +2,6 @@ package ch.fhnw.project.io;
 
 import ch.fhnw.project.model.DataModel;
 import ch.fhnw.project.model.Variable;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;

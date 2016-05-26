@@ -7,4 +7,3 @@ import java.io.FileNotFoundException;
 public interface DataReader {
     DataModel creatingDataModel(File file) throws FileNotFoundException;
 }
-

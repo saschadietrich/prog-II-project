@@ -28,19 +28,19 @@ public final class HistogramPane extends StackPane{
         xAxis.setTickLabelsVisible(false);
     }
 
-    public void change(Variable variable){
+    protected void change(Variable variable){
         /*
         Set new histogram
          */
         barChart.setTitle(variable.toString());
-        plot(biuldGroup(variable), getBinNames(variable));
+        plot(buildGroup(variable), getBinNames(variable));
     }
 
-    private int[] biuldGroup(Variable variable){
+    protected int[] buildGroup(Variable variable){
         /*
         Create a List with the size of the bins and return it
          */
-        double differenz = variable.getMax()-variable.getMin();
+        double diff = variable.getMax()-variable.getMin();
         int[] bin = new int[numberOfBin];
         List<Double> list = variable.getValues();
 
@@ -49,8 +49,8 @@ public final class HistogramPane extends StackPane{
         }
 
         for (Double aDouble : list) {
-            int value = (int)(((aDouble-variable.getMin())/differenz) * (numberOfBin));
-            int index = Math.min(value,numberOfBin-1);// verschiebt werte die genau an der obersten bin grenze sind, gibt sonst ein bin zuviel
+            int value = (int)(((aDouble-variable.getMin())/diff) * (numberOfBin));
+            int index = Math.min(value,numberOfBin-1);
             bin[index]++;
         }
 
@@ -103,7 +103,7 @@ public final class HistogramPane extends StackPane{
         return decimalFormat.format(toFormat);
     }
 
-    public static void setBin(DataModel dataModel){
+    protected static void setBin(DataModel dataModel){
         /*
         Calculate the number of bins
          */

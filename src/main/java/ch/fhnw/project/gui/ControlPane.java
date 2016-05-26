@@ -29,7 +29,7 @@ public final class ControlPane extends HBox {
             yChooser.getItems().add(variable);
         }
 
-        setComboBoxtoDefault(dataModel.getVariable().get(0), dataModel.getVariable().get(1));
+        setComboBoxToDefault(dataModel.getVariable().get(0), dataModel.getVariable().get(1));
 
         xChooser.valueProperty().addListener((observable, oldValue, newValue) -> {
             setNewValueHistogram(newValue,true);
@@ -49,7 +49,7 @@ public final class ControlPane extends HBox {
         this.getChildren().addAll(xLabel,xChooser,yLabel,yChooser);
     }
 
-    private void setComboBoxtoDefault(Variable x, Variable y){
+    private void setComboBoxToDefault(Variable x, Variable y){
         xChooser.setValue(x);
         yChooser.setValue(y);
         variableX = x;

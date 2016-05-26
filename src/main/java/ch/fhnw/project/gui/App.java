@@ -48,7 +48,6 @@ public final class App extends Application {
             alert.setContentText("Choose your option");
             ButtonType buttonTypeOne = new ButtonType("Choose new File");
             ButtonType buttonTypeCancel = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
-            e.printStackTrace(); // muss wieder weg
 
             alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
             Optional<ButtonType> result = alert.showAndWait();

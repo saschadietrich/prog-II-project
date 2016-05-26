@@ -8,17 +8,16 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
 import java.util.Locale;
 
 public final class ScatterPlotControlPane extends HBox {
 
-    public Slider slider;
-    public ColorPicker colorPicker;
-    public CheckBox chechBoxLinePlot;
-    public CheckBox checkBoxBubblePlot;
+    protected Slider slider;
+    protected ColorPicker colorPicker;
+    protected CheckBox checkBoxLinePlot;
+    protected CheckBox checkBoxBubblePlot;
 
-    public ComboBox<Variable> comboBoxBubblePlt;
+    protected ComboBox<Variable> comboBoxBubblePlt;
 
     public ScatterPlotControlPane() {
 
@@ -26,27 +25,27 @@ public final class ScatterPlotControlPane extends HBox {
         slider = new Slider();
         setSliderConditions();
         Label sliderLabel = new Label("Change dot size: ");
-        VBox vBoxSilderandLabel = new VBox( sliderLabel, slider);
-        vBoxSilderandLabel.setSpacing(5);
+        VBox vBoxSliderAndLabel = new VBox( sliderLabel, slider);
+        vBoxSliderAndLabel.setSpacing(5);
 
         colorPicker = new ColorPicker();
         setColorPicker();
         Label colorPickerLabel = new Label("Change dot color: ");
-        VBox colorPickerandLabel = new VBox(colorPickerLabel, colorPicker);
-        colorPickerandLabel.setSpacing(5);
+        VBox colorPickerAndLabel = new VBox(colorPickerLabel, colorPicker);
+        colorPickerAndLabel.setSpacing(5);
 
-        chechBoxLinePlot = new CheckBox("Line plot");
+        checkBoxLinePlot = new CheckBox("Line plot");
         checkBoxBubblePlot = new CheckBox("Bubble plot");
         setCheckBoxes();
-        VBox checkBoxVbox = new VBox(chechBoxLinePlot,checkBoxBubblePlot);
+        VBox checkBoxVbox = new VBox(checkBoxLinePlot,checkBoxBubblePlot);
 
         comboBoxBubblePlt = new ComboBox<>();
         comboBoxBubblePlt.setDisable(true);
-        Label combooBoxBubblePltLabel = new Label("Choose your third variable: ");
-        VBox comboBoxandLable = new VBox(combooBoxBubblePltLabel, comboBoxBubblePlt);
-        comboBoxandLable.setSpacing(5);
+        Label comboBoxBubblePltLabel = new Label("Choose your third variable: ");
+        VBox comboBoxAndLabel = new VBox(comboBoxBubblePltLabel, comboBoxBubblePlt);
+        comboBoxAndLabel.setSpacing(5);
 
-        this.getChildren().addAll(vBoxSilderandLabel,colorPickerandLabel,checkBoxVbox,comboBoxandLable);
+        this.getChildren().addAll(vBoxSliderAndLabel,colorPickerAndLabel,checkBoxVbox,comboBoxAndLabel);
         setSettingsScPlotCtrlPane();
     }
 
@@ -56,7 +55,7 @@ public final class ScatterPlotControlPane extends HBox {
     }
 
     private void setCheckBoxes() {
-        chechBoxLinePlot.setPadding(new Insets(5, 5, 5, 5));
+        checkBoxLinePlot.setPadding(new Insets(5, 5, 5, 5));
         checkBoxBubblePlot.setPadding(new Insets(5, 5, 5, 5));
     }
 

@@ -5,7 +5,6 @@ import javafx.scene.chart.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
-
 import java.util.List;
 
 public final class ScatterPlotPane extends VBox {
@@ -35,8 +34,8 @@ public final class ScatterPlotPane extends VBox {
         }
         scControlPane.comboBoxBubblePlt.setValue(variables.get(0));
 
-        scControlPane.chechBoxLinePlot.setOnAction(e -> {
-            if(scControlPane.chechBoxLinePlot.isSelected()){
+        scControlPane.checkBoxLinePlot.setOnAction(e -> {
+            if(scControlPane.checkBoxLinePlot.isSelected()){
                 lineChart.setVisible(true);
                 scatterChart.getXAxis().setVisible(false);
                 scatterChart.getYAxis().setVisible(false);
@@ -53,7 +52,7 @@ public final class ScatterPlotPane extends VBox {
                 plotBubbleChart();
             } else{
                 scControlPane.comboBoxBubblePlt.setDisable(true);
-                scControlPane.chechBoxLinePlot.setDisable(false);
+                scControlPane.checkBoxLinePlot.setDisable(false);
                 scatterChartBubble.setVisible(false);
                 scatterChart.getXAxis().setVisible(true);
                 scatterChart.getYAxis().setVisible(true);
@@ -68,7 +67,7 @@ public final class ScatterPlotPane extends VBox {
         this.getChildren().addAll(scControlPane, stackPane);
     }
 
-    public void setUp(Variable varX, Variable varY) {
+    protected void setUp(Variable varX, Variable varY) {
         /*
         Gets Variables from ControlPane class
         Changes Scatter-, Line- and BubblePlot to Variables changed in ControlPane class
@@ -130,7 +129,7 @@ public final class ScatterPlotPane extends VBox {
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.legendVisibleProperty().set(false);
         lineChart.setVisible(false);
-        scControlPane.chechBoxLinePlot.setSelected(false);
+        scControlPane.checkBoxLinePlot.setSelected(false);
         lineChart.getData().get(0).getNode().setStyle("-fx-stroke:  blue ;");
     }
 
@@ -138,9 +137,9 @@ public final class ScatterPlotPane extends VBox {
         /*
         Creates Data for BubbleChart and then creates BubblePlot and setting its conditions
          */
-        scControlPane.chechBoxLinePlot.setSelected(false);
+        scControlPane.checkBoxLinePlot.setSelected(false);
         scControlPane.comboBoxBubblePlt.setDisable(false);
-        scControlPane.chechBoxLinePlot.setDisable(true);
+        scControlPane.checkBoxLinePlot.setDisable(true);
         scatterChartBubble.getData().clear();
         scatterChartBubble.setVisible(true);
         scControlPane.slider.setValue(2.0);

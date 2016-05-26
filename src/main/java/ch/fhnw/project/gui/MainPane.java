@@ -12,7 +12,7 @@ public final class MainPane extends StackPane {
     public MainPane(DataModel dataModel){
 
         ScatterPlotPane scatterPlotPane = new ScatterPlotPane(dataModel.getVariable());
-        HistogramPane.setBin(dataModel); // da die Pin bei allen Variablen der gleichen Datei gleich ist --> static --> nur einmal machen
+        HistogramPane.setBin(dataModel);
         HistogramPane histogramPane1 = new HistogramPane();
         HistogramPane histogramPane2 = new HistogramPane();
         ControlPane controlPane = new ControlPane(dataModel, scatterPlotPane, histogramPane1, histogramPane2);
