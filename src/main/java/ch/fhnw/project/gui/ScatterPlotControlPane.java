@@ -51,7 +51,7 @@ public final class ScatterPlotControlPane extends HBox {
 
     private void setSliderConditions() {
         slider.setMin(2.0);
-        slider.setMax(10.0);
+        slider.setMax(20.0);
     }
 
     private void setCheckBoxes() {

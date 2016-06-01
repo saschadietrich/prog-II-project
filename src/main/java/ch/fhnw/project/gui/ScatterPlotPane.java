@@ -148,10 +148,12 @@ public final class ScatterPlotPane extends VBox {
 
         XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
 
+        double factor = 2 / variableZ.getMax();
+
         for (int i = 0; i < variableX.getValues().size(); i++) {
             XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(variableX.getValues().get(i),variableY.getValues().get(i),variableZ.getValues().get(i));
             Circle circle = new Circle();
-            circle.setRadius(variableZ.getValues().get(i)*0.1);
+            circle.setRadius(variableZ.getValues().get(i)*factor);
             scControlPane.slider.valueProperty().addListener((observable, oldValue, newValue) -> {
                 circle.setRadius(newValue.doubleValue()/oldValue.doubleValue()*circle.getRadius());
             });
