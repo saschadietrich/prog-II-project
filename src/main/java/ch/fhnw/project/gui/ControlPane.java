@@ -1,6 +1,5 @@
 package ch.fhnw.project.gui;
 
-
 import ch.fhnw.project.model.DataModel;
 import ch.fhnw.project.model.Variable;
 import javafx.geometry.Insets;
@@ -9,7 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-public final class ControlPane extends HBox {
+final class ControlPane extends HBox {
     private ScatterPlotPane scatterPlotPane;
     private HistogramPane histogramPane1, histogramPane2;
     private Variable variableX;
@@ -17,7 +16,7 @@ public final class ControlPane extends HBox {
     private ComboBox<Variable> xChooser = new ComboBox<>();
     private ComboBox<Variable> yChooser = new ComboBox<>();
 
-    public ControlPane(DataModel dataModel, ScatterPlotPane scatterPlotPane, HistogramPane histogramPane1, HistogramPane histogramPane2){
+    ControlPane(DataModel dataModel, ScatterPlotPane scatterPlotPane, HistogramPane histogramPane1, HistogramPane histogramPane2){
         this.scatterPlotPane = scatterPlotPane;
         this.histogramPane1 = histogramPane1;
         this.histogramPane2 = histogramPane2;

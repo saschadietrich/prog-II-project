@@ -14,7 +14,7 @@ public final class Variable {
 
     public void addValue(double value){
         /*
-        Add new Value the the list
+        Adds new value to the list and sets max or min value
          */
         if (values.size()<1){
             min = value;
@@ -28,7 +28,6 @@ public final class Variable {
             min = value;
         }
         values.add(value);
-
     }
 
     public List<Double> getValues(){

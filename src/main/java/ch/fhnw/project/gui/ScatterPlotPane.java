@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import java.util.List;
 
-public final class ScatterPlotPane extends VBox {
+final class ScatterPlotPane extends VBox {
     private StackPane stackPane;
     private Variable variableX ;
     private Variable variableY;
@@ -17,13 +17,11 @@ public final class ScatterPlotPane extends VBox {
     private ScatterChart<Number, Number> scatterChartBubble;
     private ScatterPlotControlPane scControlPane;
 
-    public ScatterPlotPane( List<Variable> variables) {
-
+    ScatterPlotPane(List<Variable> variables) {
         stackPane = new StackPane();
         variableY =variables.get(1);
         variableX =variables.get(0);
         variableZ =variables.get(0);
-
         scControlPane = new ScatterPlotControlPane();
         plotLineChart(createDataSeries());
         plotScatterChart(createDataSeries());
@@ -67,15 +65,13 @@ public final class ScatterPlotPane extends VBox {
         this.getChildren().addAll(scControlPane, stackPane);
     }
 
-    protected void setUp(Variable varX, Variable varY) {
+    void setUp(Variable varX, Variable varY) {
         /*
         Gets Variables from ControlPane class
         Changes Scatter-, Line- and BubblePlot to Variables changed in ControlPane class
         */
-
         variableX = varX;
         variableY = varY;
-
         stackPane.getChildren().clear();
         plotScatterChart(createDataSeries());
         plotLineChart(createDataSeries());
@@ -85,7 +81,6 @@ public final class ScatterPlotPane extends VBox {
         if(scControlPane.checkBoxBubblePlot.isSelected()){
             plotBubbleChart();
         }
-
         stackPane.getChildren().addAll(scatterChart,lineChart,scatterChartBubble);
     }
 
@@ -147,7 +142,6 @@ public final class ScatterPlotPane extends VBox {
         scatterChart.getYAxis().setVisible(false);
 
         XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
-
         double factor = 2 / variableZ.getMax();
 
         for (int i = 0; i < variableX.getValues().size(); i++) {

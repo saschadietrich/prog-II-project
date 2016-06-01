@@ -1,6 +1,5 @@
 package ch.fhnw.project.gui;
 
-
 import ch.fhnw.project.model.Variable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,18 +9,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import java.util.Locale;
 
-public final class ScatterPlotControlPane extends HBox {
+final class ScatterPlotControlPane extends HBox {
+    Slider slider;
+    ColorPicker colorPicker;
+    CheckBox checkBoxLinePlot;
+    CheckBox checkBoxBubblePlot;
+    ComboBox<Variable> comboBoxBubblePlt;
 
-    protected Slider slider;
-    protected ColorPicker colorPicker;
-    protected CheckBox checkBoxLinePlot;
-    protected CheckBox checkBoxBubblePlot;
-
-    protected ComboBox<Variable> comboBoxBubblePlt;
-
-    public ScatterPlotControlPane() {
-
-
+    ScatterPlotControlPane() {
         slider = new Slider();
         setSliderConditions();
         Label sliderLabel = new Label("Change dot size: ");
@@ -37,7 +32,7 @@ public final class ScatterPlotControlPane extends HBox {
         checkBoxLinePlot = new CheckBox("Line plot");
         checkBoxBubblePlot = new CheckBox("Bubble plot");
         setCheckBoxes();
-        VBox checkBoxVbox = new VBox(checkBoxLinePlot,checkBoxBubblePlot);
+        VBox checkBox= new VBox(checkBoxLinePlot,checkBoxBubblePlot);
 
         comboBoxBubblePlt = new ComboBox<>();
         comboBoxBubblePlt.setDisable(true);
@@ -45,7 +40,7 @@ public final class ScatterPlotControlPane extends HBox {
         VBox comboBoxAndLabel = new VBox(comboBoxBubblePltLabel, comboBoxBubblePlt);
         comboBoxAndLabel.setSpacing(5);
 
-        this.getChildren().addAll(vBoxSliderAndLabel,colorPickerAndLabel,checkBoxVbox,comboBoxAndLabel);
+        this.getChildren().addAll(vBoxSliderAndLabel,colorPickerAndLabel,checkBox,comboBoxAndLabel);
         setSettingsScPlotCtrlPane();
     }
 

@@ -1,8 +1,6 @@
 package ch.fhnw.project.io;
 
-
 import ch.fhnw.project.model.DataModel;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -14,7 +12,6 @@ public final class LineReader implements DataReader {
 
     @Override
     public DataModel creatingDataModel(File file) throws FileNotFoundException {
-
         Scanner scanner = new Scanner(file);
         int amountOfVariables = Integer.parseInt(scanner.nextLine());
         List<String> variableNames = new ArrayList<>();
