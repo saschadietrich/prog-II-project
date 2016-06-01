@@ -7,29 +7,29 @@ public final class DataModel {
     private List<Variable> variable;
     private String filename;
 
-    public DataModel(List<String> names,String filename){
+    public DataModel(List<String> names, String filename) {
         variable = names.stream().map(Variable::new).collect(Collectors.toList());
         this.filename = filename;
     }
 
-    public List<Variable> getVariable(){
+    public List<Variable> getVariable() {
         return variable;
     }
 
-    public String getFilename(){
+    public String getFilename() {
         return filename;
     }
 
-    public void checkData()throws Exception{
+    public void checkData() throws Exception {
         /*
         Check if the data can be plotted, if not it throws a exception
          */
-        if(variable.size()<=1){
+        if (variable.size() <= 1) {
             throw new Exception("Too less variables");
         }
 
-        for(int i=0; i<(variable.size()-1);i++){
-            if(variable.get(i).getValues().size()!=variable.get(i+1).getValues().size()){
+        for (int i = 0; i < (variable.size() - 1); i++) {
+            if (variable.get(i).getValues().size() != variable.get(i + 1).getValues().size()) {
                 throw new Exception("Variables have not the same amount of values");
             }
         }

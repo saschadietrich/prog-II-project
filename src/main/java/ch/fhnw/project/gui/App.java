@@ -5,9 +5,12 @@ import ch.fhnw.project.io.TxtReader;
 import ch.fhnw.project.model.DataModel;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.util.Optional;
 
@@ -19,19 +22,19 @@ public final class App extends Application {
 
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Choose your Data");
-        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All","*.txt","*.lin"),
-                new FileChooser.ExtensionFilter("Text Files","*.txt"),
-                new FileChooser.ExtensionFilter("Line Files","*.lin"));
+        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All", "*.txt", "*.lin"),
+                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+                new FileChooser.ExtensionFilter("Line Files", "*.lin"));
         File file = chooser.showOpenDialog(stage);
 
-        if (file == null){
+        if (file == null) {
             System.exit(0);
         }
 
         try {
-            if(file.getName().endsWith(".txt")) {
+            if (file.getName().endsWith(".txt")) {
                 dataModel = new TxtReader().creatingDataModel(file);
-            } else if (file.getName().endsWith(".lin")){
+            } else if (file.getName().endsWith(".lin")) {
                 dataModel = new LineReader().creatingDataModel(file);
             }
             dataModel.checkData();
@@ -51,11 +54,12 @@ public final class App extends Application {
 
             alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get()== buttonTypeOne){
+            if (result.isPresent() && result.get() == buttonTypeOne) {
                 start(stage);
             }
         }
     }
+
     public static void main(String[] args) {
         launch(args);
     }

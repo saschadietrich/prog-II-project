@@ -8,42 +8,42 @@ public final class Variable {
     private List<Double> values = new ArrayList<>();
     private double min, max;
 
-    public Variable(String name){
+    public Variable(String name) {
         this.name = name;
     }
 
-    public void addValue(double value){
+    public void addValue(double value) {
         /*
         Adds new value to the list and sets max or min value
          */
-        if (values.size()<1){
+        if (values.size() < 1) {
             min = value;
             max = value;
         }
-        if (max < value){
+        if (max < value) {
             max = value;
 
         }
-        if (min > value){
+        if (min > value) {
             min = value;
         }
         values.add(value);
     }
 
-    public List<Double> getValues(){
+    public List<Double> getValues() {
         return values;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 
-    public double getMin(){
+    public double getMin() {
         return min;
     }
 
-    public double getMax(){
+    public double getMax() {
         return max;
     }
 }

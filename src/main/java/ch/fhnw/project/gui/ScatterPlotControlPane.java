@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+
 import java.util.Locale;
 
 final class ScatterPlotControlPane extends HBox {
@@ -20,7 +21,7 @@ final class ScatterPlotControlPane extends HBox {
         slider = new Slider();
         setSliderConditions();
         Label sliderLabel = new Label("Change dot size: ");
-        VBox vBoxSliderAndLabel = new VBox( sliderLabel, slider);
+        VBox vBoxSliderAndLabel = new VBox(sliderLabel, slider);
         vBoxSliderAndLabel.setSpacing(5);
 
         colorPicker = new ColorPicker();
@@ -32,7 +33,7 @@ final class ScatterPlotControlPane extends HBox {
         checkBoxLinePlot = new CheckBox("Line plot");
         checkBoxBubblePlot = new CheckBox("Bubble plot");
         setCheckBoxes();
-        VBox checkBox= new VBox(checkBoxLinePlot,checkBoxBubblePlot);
+        VBox checkBox = new VBox(checkBoxLinePlot, checkBoxBubblePlot);
 
         comboBoxBubblePlt = new ComboBox<>();
         comboBoxBubblePlt.setDisable(true);
@@ -40,7 +41,7 @@ final class ScatterPlotControlPane extends HBox {
         VBox comboBoxAndLabel = new VBox(comboBoxBubblePltLabel, comboBoxBubblePlt);
         comboBoxAndLabel.setSpacing(5);
 
-        this.getChildren().addAll(vBoxSliderAndLabel,colorPickerAndLabel,checkBox,comboBoxAndLabel);
+        this.getChildren().addAll(vBoxSliderAndLabel, colorPickerAndLabel, checkBox, comboBoxAndLabel);
         setSettingsScPlotCtrlPane();
     }
 

@@ -1,6 +1,7 @@
 package ch.fhnw.project.io;
 
 import ch.fhnw.project.model.DataModel;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public final class LineReader implements DataReader {
         List<String> variableNames = new ArrayList<>();
 
         for (int row = 0; row < (amountOfVariables); row++) {
-                variableNames.add(scanner.nextLine());
+            variableNames.add(scanner.nextLine());
         }
 
         String delimiter = scanner.nextLine();

@@ -16,7 +16,7 @@ final class ControlPane extends HBox {
     private ComboBox<Variable> xChooser = new ComboBox<>();
     private ComboBox<Variable> yChooser = new ComboBox<>();
 
-    ControlPane(DataModel dataModel, ScatterPlotPane scatterPlotPane, HistogramPane histogramPane1, HistogramPane histogramPane2){
+    ControlPane(DataModel dataModel, ScatterPlotPane scatterPlotPane, HistogramPane histogramPane1, HistogramPane histogramPane2) {
         this.scatterPlotPane = scatterPlotPane;
         this.histogramPane1 = histogramPane1;
         this.histogramPane2 = histogramPane2;
@@ -31,37 +31,37 @@ final class ControlPane extends HBox {
         setComboBoxToDefault(dataModel.getVariable().get(0), dataModel.getVariable().get(1));
 
         xChooser.valueProperty().addListener((observable, oldValue, newValue) -> {
-            setNewValueHistogram(newValue,true);
+            setNewValueHistogram(newValue, true);
             variableX = newValue;
-            scatterPlotPane.setUp(variableX,variableY);
+            scatterPlotPane.setUp(variableX, variableY);
         });
 
         yChooser.valueProperty().addListener((observable, oldValue, newValue) -> {
-            setNewValueHistogram(newValue,false);
+            setNewValueHistogram(newValue, false);
             variableY = newValue;
-            scatterPlotPane.setUp(variableX,variableY);
+            scatterPlotPane.setUp(variableX, variableY);
         });
 
-        this.setPadding(new Insets(5,5,5,5));
+        this.setPadding(new Insets(5, 5, 5, 5));
         this.setAlignment(Pos.CENTER);
         this.setSpacing(10);
-        this.getChildren().addAll(xLabel,xChooser,yLabel,yChooser);
+        this.getChildren().addAll(xLabel, xChooser, yLabel, yChooser);
     }
 
-    private void setComboBoxToDefault(Variable x, Variable y){
+    private void setComboBoxToDefault(Variable x, Variable y) {
         xChooser.setValue(x);
         yChooser.setValue(y);
         variableX = x;
         variableY = y;
-        setNewValueHistogram(xChooser.getValue(),true);
+        setNewValueHistogram(xChooser.getValue(), true);
         setNewValueHistogram(yChooser.getValue(), false);
-        scatterPlotPane.setUp(variableX,variableY);
+        scatterPlotPane.setUp(variableX, variableY);
     }
-    
-    private void setNewValueHistogram(Variable newVariable, boolean xValue){
-        if (xValue){
+
+    private void setNewValueHistogram(Variable newVariable, boolean xValue) {
+        if (xValue) {
             histogramPane1.change(newVariable);
-        }else{
+        } else {
             histogramPane2.change(newVariable);
         }
     }

@@ -1,31 +1,35 @@
 package ch.fhnw.project.gui;
 
 import ch.fhnw.project.model.Variable;
-import javafx.scene.chart.*;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+
 import java.util.List;
 
 final class ScatterPlotPane extends VBox {
     private StackPane stackPane;
-    private Variable variableX ;
+    private Variable variableX;
     private Variable variableY;
     private Variable variableZ;
-    private LineChart<Number,Number> lineChart;
+    private LineChart<Number, Number> lineChart;
     private ScatterChart<Number, Number> scatterChart;
     private ScatterChart<Number, Number> scatterChartBubble;
     private ScatterPlotControlPane scControlPane;
 
     ScatterPlotPane(List<Variable> variables) {
         stackPane = new StackPane();
-        variableY =variables.get(1);
-        variableX =variables.get(0);
-        variableZ =variables.get(0);
+        variableY = variables.get(1);
+        variableX = variables.get(0);
+        variableZ = variables.get(0);
         scControlPane = new ScatterPlotControlPane();
         plotLineChart(createDataSeries());
         plotScatterChart(createDataSeries());
-        scatterChartBubble = new ScatterChart<>(createAxis(variableX),createAxis(variableY));
+        scatterChartBubble = new ScatterChart<>(createAxis(variableX), createAxis(variableY));
 
         for (Variable var : variables) {
             scControlPane.comboBoxBubblePlt.getItems().add(var);
@@ -33,7 +37,7 @@ final class ScatterPlotPane extends VBox {
         scControlPane.comboBoxBubblePlt.setValue(variables.get(0));
 
         scControlPane.checkBoxLinePlot.setOnAction(e -> {
-            if(scControlPane.checkBoxLinePlot.isSelected()){
+            if (scControlPane.checkBoxLinePlot.isSelected()) {
                 lineChart.setVisible(true);
                 scatterChart.getXAxis().setVisible(false);
                 scatterChart.getYAxis().setVisible(false);
@@ -45,10 +49,10 @@ final class ScatterPlotPane extends VBox {
         });
 
         scControlPane.checkBoxBubblePlot.setOnAction(event -> {
-            if(scControlPane.checkBoxBubblePlot.isSelected()) {
+            if (scControlPane.checkBoxBubblePlot.isSelected()) {
                 variableZ = scControlPane.comboBoxBubblePlt.getValue();
                 plotBubbleChart();
-            } else{
+            } else {
                 scControlPane.comboBoxBubblePlt.setDisable(true);
                 scControlPane.checkBoxLinePlot.setDisable(false);
                 scatterChartBubble.setVisible(false);
@@ -61,7 +65,7 @@ final class ScatterPlotPane extends VBox {
             plotBubbleChart();
         });
 
-        stackPane.getChildren().addAll(scatterChart,lineChart,scatterChartBubble);
+        stackPane.getChildren().addAll(scatterChart, lineChart, scatterChartBubble);
         this.getChildren().addAll(scControlPane, stackPane);
     }
 
@@ -75,25 +79,25 @@ final class ScatterPlotPane extends VBox {
         stackPane.getChildren().clear();
         plotScatterChart(createDataSeries());
         plotLineChart(createDataSeries());
-        scatterChartBubble = new ScatterChart<>(createAxis(varX),createAxis(varY));
+        scatterChartBubble = new ScatterChart<>(createAxis(varX), createAxis(varY));
         scatterChartBubble.setVisible(false);
 
-        if(scControlPane.checkBoxBubblePlot.isSelected()){
+        if (scControlPane.checkBoxBubblePlot.isSelected()) {
             plotBubbleChart();
         }
-        stackPane.getChildren().addAll(scatterChart,lineChart,scatterChartBubble);
+        stackPane.getChildren().addAll(scatterChart, lineChart, scatterChartBubble);
     }
 
-    private XYChart.Series<Number,Number> createDataSeries(){
+    private XYChart.Series<Number, Number> createDataSeries() {
         /*
         Creates DataSeries for Line and Scatter Plot
          */
-        XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
+        XYChart.Series<Number, Number> dataSeries = new XYChart.Series<>();
         List<Double> xValues = variableX.getValues();
         List<Double> yValues = variableY.getValues();
 
         for (int i = 0; i < xValues.size(); i++) {
-            XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(xValues.get(i),yValues.get(i));
+            XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(xValues.get(i), yValues.get(i));
             Circle circle = new Circle();
             circle.radiusProperty().bind(scControlPane.slider.valueProperty());
             circle.fillProperty().bind(scControlPane.colorPicker.valueProperty());
@@ -103,11 +107,11 @@ final class ScatterPlotPane extends VBox {
         return dataSeries;
     }
 
-    private void plotScatterChart( XYChart.Series <Number,Number> data){
+    private void plotScatterChart(XYChart.Series<Number, Number> data) {
         /*
         Creates a ScatterPlot
          */
-        scatterChart = new ScatterChart<>(createAxis(variableX),createAxis(variableY));
+        scatterChart = new ScatterChart<>(createAxis(variableX), createAxis(variableY));
         scatterChart.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent");
         scatterChart.legendVisibleProperty().set(false);
         scatterChart.getData().add(data);
@@ -115,11 +119,11 @@ final class ScatterPlotPane extends VBox {
         scatterChart.getYAxis().setVisible(false);
     }
 
-    private void plotLineChart(XYChart.Series <Number,Number> data){
+    private void plotLineChart(XYChart.Series<Number, Number> data) {
         /*
         Creates a LinePlot
          */
-        lineChart = new LineChart<>(createAxis(variableX),createAxis(variableY));
+        lineChart = new LineChart<>(createAxis(variableX), createAxis(variableY));
         lineChart.getData().add(data);
         lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineChart.legendVisibleProperty().set(false);
@@ -128,7 +132,7 @@ final class ScatterPlotPane extends VBox {
         lineChart.getData().get(0).getNode().setStyle("-fx-stroke:  blue ;");
     }
 
-    private void plotBubbleChart(){
+    private void plotBubbleChart() {
         /*
         Creates Data for BubbleChart and then creates BubblePlot and setting its conditions
          */
@@ -141,15 +145,15 @@ final class ScatterPlotPane extends VBox {
         scatterChart.getXAxis().setVisible(false);
         scatterChart.getYAxis().setVisible(false);
 
-        XYChart.Series <Number,Number> dataSeries = new XYChart.Series<>();
+        XYChart.Series<Number, Number> dataSeries = new XYChart.Series<>();
         double factor = 2 / variableZ.getMax();
 
         for (int i = 0; i < variableX.getValues().size(); i++) {
-            XYChart.Data<Number,Number> dataPoint = new XYChart.Data<>(variableX.getValues().get(i),variableY.getValues().get(i),variableZ.getValues().get(i));
+            XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(variableX.getValues().get(i), variableY.getValues().get(i), variableZ.getValues().get(i));
             Circle circle = new Circle();
-            circle.setRadius(variableZ.getValues().get(i)*factor);
+            circle.setRadius(variableZ.getValues().get(i) * factor);
             scControlPane.slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-                circle.setRadius(newValue.doubleValue()/oldValue.doubleValue()*circle.getRadius());
+                circle.setRadius(newValue.doubleValue() / oldValue.doubleValue() * circle.getRadius());
             });
             circle.fillProperty().bind(scControlPane.colorPicker.valueProperty());
             dataPoint.setNode(circle);
@@ -159,11 +163,11 @@ final class ScatterPlotPane extends VBox {
         scatterChartBubble.setLegendVisible(false);
     }
 
-    private NumberAxis createAxis(Variable var){
+    private NumberAxis createAxis(Variable var) {
         /*
         creates x- or y- axis
          */
-        NumberAxis axis= new NumberAxis();
+        NumberAxis axis = new NumberAxis();
         axis.setLabel(var.toString());
         axis.setForceZeroInRange(false);
         return axis;
